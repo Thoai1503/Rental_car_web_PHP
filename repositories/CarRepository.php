@@ -29,7 +29,7 @@ class CarRepository
 
     public function updateCar($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image)
     { 
-        var_dump($_REQUEST);die();
+      //  var_dump($_REQUEST);die();
         
         if($image!=""){
         $car= new Car($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);

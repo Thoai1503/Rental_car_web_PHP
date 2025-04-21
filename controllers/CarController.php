@@ -11,7 +11,7 @@ class CarController
     public function index()
     {
         $cars = $this->carRepository->getAllCars();
-      require_once 'views/home.php';
+      require_once 'views/admin/home.php';
     }
     
     public function add()
@@ -36,7 +36,7 @@ class CarController
             $this->carRepository->addCar($name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
             header('Location: /cars');
         } else {
-            require 'views/add-car.php';
+            require 'views/admin/add-car.php';
         }
     }
     public function edit($id)
@@ -76,7 +76,7 @@ class CarController
             }
             // header('Location: /cars');
         } else {
-            require 'views/edit-car.php';
+            require 'views/admin/edit-car.php';
         }
     }
     public function delete($id)
@@ -88,12 +88,12 @@ class CarController
     {
         $keyword = $_GET['keyword'] ?? '';
         $cars = $this->carRepository->searchCars($keyword);
-        require 'views/car-list.php';
+        require 'views/admin/car-list.php';
     }
     public function show($id)
     {
         $car = $this->carRepository->getCarById($id);
-        require 'views/edit-car.php';
+        require 'views/admin/edit-car.php';
     }
 }
 ?>

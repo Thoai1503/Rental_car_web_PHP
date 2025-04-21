@@ -47,5 +47,5 @@ ob_start();
 <?php
 $content = ob_get_clean();
 
-require 'views/layout/main.php';
+require 'views/_layout/main.php';
 ?>
