@@ -1,12 +1,14 @@
 <?php
 require_once 'controllers/CarController.php';
 require_once 'repositories/CarRepository.php';
+require_once 'controllers/AdminController.php';
+
 require_once 'helpers/function.php';
 $pdo = require_once 'config/database.php';
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestUri = str_replace('/car_rent', '', $requestUri);
 
-
+//var_dump($requestUri);
 
 if($requestUri === '/index.php' || $requestUri === '/') {
  // var_dump(value: __DIR__);die();
@@ -40,7 +42,7 @@ if($requestUri === '/index.php' || $requestUri === '/') {
       $carController->delete($id);
 
 
-
+  
 
 } elseif($requestUri === '/cars-delete') {
     $carController = new CarController( new CarRepository($pdo));
@@ -54,8 +56,18 @@ if($requestUri === '/index.php' || $requestUri === '/') {
 
 }
 
+elseif($requestUri === '/admin'){
+ // var_dump($requestUri);die();
+  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController->index();
+}
+
+elseif($requestUri === '/admin/addcar'){
+  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController->addView();
+}
  else {
-  dd($_REQUEST);die();
+  // dd($_REQUEST);die();
     http_response_code(404);
     echo "404 Not Found";
 }

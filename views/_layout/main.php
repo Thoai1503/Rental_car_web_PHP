@@ -21,7 +21,7 @@
     </div>
 
     <footer class="text-center mt-5 text-muted">
-        &copy; <?= date('Y') ?> Thuê xe - Dự án PHP thuần
+        &copy; <?= date('Y') ?> Thuê xe - Dự án PHP thuần tại: <a href="https://github.com/Thoai1503/Rental_car_web_PHP">https://github.com/Thoai1503/Rental_car_web_PHP</a>
     </footer>
 </body>
 </html>

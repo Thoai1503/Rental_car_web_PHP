@@ -17,7 +17,7 @@ class CarController
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   
+           dd($_POST);die();
            $str= randomString(8);
      
             $name = $_POST['name'];
@@ -43,9 +43,25 @@ class CarController
     {
         $car = $this->carRepository->getCarById($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
+           // dd($_FILES);die();
             if ($_FILES["image"]["error"] == 0) {
-            
+        
+                // Check if the file is uploaded successfully
+                if ($_FILES["image"]["error"] !== UPLOAD_ERR_OK) {
+                    echo "Error uploading file: " . $_FILES["image"]["error"];
+                    return;
+                }
+                // Check if the file is an image
+                $check = getimagesize($_FILES["image"]["tmp_name"]);
+                if ($check === false) {
+                    echo "File is not an image.";
+                    return;
+                }
+                // Check if the file size is within limits (e.g., 2MB)
+                if ($_FILES["image"]["size"] > 2 * 1024 * 1024) {
+                    echo "File size exceeds the limit.";
+                    return;
+                }
                if($car['image']!=""&& strlen($car['image'])>20){
              //`   var_dump("uploads/".$car['image']);die();
                 unlink("uploads/".$car['image']);
@@ -67,6 +83,7 @@ class CarController
                 $image = randomString(8) . $filename;
                 $target_dir = "uploads/";
                 $target_file = $target_dir.$image;
+                
                 move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
                 $this->carRepository->updateCar($id, $_POST['name'], $_POST['brand'], $_POST['type'], $_POST['fuel_type'], $_POST['seats'], $_POST['transmission'], $_POST['price_per_day'], $image);
                 header('Location: ../');

@@ -1,7 +1,7 @@
 <?php
 ob_start();
 ?>
-<div class="container mt-5">
+<di class="container mt-5">
     <h1 class="text-center">Thêm xe</h1>
     <form action="./cars-add" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
@@ -39,7 +39,7 @@ ob_start();
             <label for="image" class="form-label">Hình ảnh</label>
             <input type="file" class="form-control" id="image" name="image" accept=".jpg, .jpeg, .png, .gif" required>
         </div>
-        <button type="submit" class="btn btn-primary">Thêm xe</button>
+        <button type="submit" name="btnAdd" class="btn btn-primary">Thêm xe</button>
     </form>
 </div>
 

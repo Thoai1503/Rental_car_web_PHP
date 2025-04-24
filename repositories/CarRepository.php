@@ -9,11 +9,13 @@ class CarRepository
     public function __construct($pdo)
     {
         require_once 'models/Car.php';
+        require_once 'helpers/function.php';
         $this->pdo = $pdo;
     }
 
     public function getAllCars()
     {
+      //  var_dump($this->pdo);die();
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
