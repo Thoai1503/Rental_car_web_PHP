@@ -22,7 +22,7 @@ if($requestUri === '/index.php' || $requestUri === '/') {
     require_once 'views/add-car.php';
 
 
-  } elseif($requestUri === '/cars-add'){
+  } elseif($requestUri === '/admin/cars-add'){
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
 
@@ -58,14 +58,56 @@ if($requestUri === '/index.php' || $requestUri === '/') {
 
 elseif($requestUri === '/admin'){
  // var_dump($requestUri);die();
+
+
+
+ 
+
+
+
   $adminController = new AdminController(new CarRepository($pdo));
   $adminController->index();
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // header('Content-Type: application/json');
+
+    // // Get raw POST data
+    // $rawData = file_get_contents("php://input");
+    
+    // // Decode the JSON into an associative array
+    // $data = json_decode($rawData, true);
+    
+    // Check if the expected data is present
+    if (isset($_POST['name']) && isset($_POST['age'])) {
+        $name = htmlspecialchars($_POST['name']); // Optional: basic sanitization
+        $age = (int)$_POST['age'];
+    
+        // Example logic: return a custom message
+        $response = [
+            'status' => 'success',
+            'message' => "Hello, $name! You are $age years old."
+        ];
+        echo json_encode($response);
+    } else {
+        http_response_code(400);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Invalid input data. Name and age are required.'
+        ]);
+    }
+  }
 }
 
 elseif($requestUri === '/admin/addcar'){
   $adminController = new AdminController(new CarRepository($pdo));
   $adminController->addView();
 }
+
+elseif($requestUri === '/updateCarStatus') {
+  $carController = new CarController(new CarRepository($pdo));
+  $carController->updateStatusViaAjax();
+}
+
  else {
   // dd($_REQUEST);die();
     http_response_code(404);

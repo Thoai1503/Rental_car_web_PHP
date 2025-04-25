@@ -66,6 +66,18 @@ class CarRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function updateCarStatus($id, $status)
+    {
+        $stmt = $this->pdo->prepare("UPDATE {$this->table} SET status = ? WHERE id = ?");
+        return $stmt->execute([$status, $id]);
+    }
+    public function getCarByStatus($status)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE status = ?");
+        $stmt->execute([$status]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 

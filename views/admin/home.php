@@ -14,7 +14,7 @@ ob_start(); // Start output buffering
                     <h5 class="card-title"><?= $car['name'] ?></h5>
                     <p class="card-text">Giá: <?= $car['price_per_day'] ?> VNĐ</p>
                     <a href="editcar/<?= $car['id'] ?>" class="btn btn-warning">Sửa</a>
-                    <a href="deletecar?id=<?= $car['id'] ?>" class="btn btn-danger">Xóa</a>
+                    <button class="btn btn-danger delete-btn" data-id="<?= $car['id'] ?>" data-toggle="modal" data-target="#exampleModal">Xóa</button>
                 </div>
             </div>
         </div>
@@ -22,6 +22,49 @@ ob_start(); // Start output buffering
 <?php endforeach; ?>
 <a class="btn btn-primary mb-3" href="/cars/add">Thêm xe</a>
 
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc muốn xoá chiếc xe 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="deletecar?id=" class="btn btn-primary save-btn">Save changes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy tất cả các nút Delete Demo
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                let itemId = this.getAttribute("data-id"); // Lấy ID của item
+               // alert(itemId);
+            document.getElementsByClassName("modal-body")[0].textContent += itemId; // Hiển thị trong modal
+                document.getElementsByClassName("save-btn")[0].href +=  itemId; // Set href cho nút Delete
+            });
+        });
+
+    });
+  
+</script>
 
 <?php
 $content = ob_get_clean();

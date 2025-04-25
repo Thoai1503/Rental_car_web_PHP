@@ -12,7 +12,7 @@ ob_start();
                     <h5 class="card-title"><?= $car['name'] ?></h5>
                     <p class="card-text">Giá: <?= $car['price_per_day'] ?> VNĐ</p>
                     <a href="/cars/edit/<?= $car['id'] ?>" class="btn btn-warning">Sửa</a>
-                    <a href="/cars/delete/<?= $car['id'] ?>" class="btn btn-danger">Xóa</a>
+                    <button class="btn btn-danger" data-id="<?= $car['id'] ?>">Xóa</button>
                 </div>
             </div>
         </div>

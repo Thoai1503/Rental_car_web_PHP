@@ -17,7 +17,7 @@ class CarController
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-           dd($_POST);die();
+       //    dd($_POST);die();
            $str= randomString(8);
      
             $name = $_POST['name'];
@@ -111,6 +111,68 @@ class CarController
     {
         $car = $this->carRepository->getCarById($id);
         require 'views/admin/edit-car.php';
+    }
+    public function updateStatusViaAjax()
+    {
+        // Set content type to JSON
+        header('Content-Type: application/json');
+        
+        // Check if it's a POST request
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Method not allowed. Please use POST.'
+            ]);
+            return;
+        }
+        
+        // Validate required parameters
+        if (!isset($_POST['carId']) || !isset($_POST['status'])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required parameters: carId and status'
+            ]);
+            return;
+        }
+        
+        // Get and sanitize parameters
+        $carId = (int)$_POST['carId'];
+        $status = htmlspecialchars($_POST['status']);
+        
+        // Validate status value
+        if (!in_array($status, ['available', 'unavailable'])) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid status value. Must be "available" or "not available".'
+            ]);
+            return;
+        }
+        
+        try {
+            // Update car status
+            $success = $this->carRepository->updateCarStatus($carId, $status);
+            
+            if ($success) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Car status updated successfully',
+                    'data' => [
+                        'carId' => $carId,
+                        'status' => $status
+                    ]
+                ]);
+            } else {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Failed to update car status'
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
+        }
     }
 }
 ?>
