@@ -117,6 +117,10 @@ class CarController
         // Set content type to JSON
         header('Content-Type: application/json');
         
+        $rawData = file_get_contents("php://input");
+
+// Decode the JSON into an associative array
+$data = json_decode($rawData, true);
         // Check if it's a POST request
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode([
@@ -127,7 +131,7 @@ class CarController
         }
         
         // Validate required parameters
-        if (!isset($_POST['carId']) || !isset($_POST['status'])) {
+        if (!isset($data['carId']) || !isset($data['status'])) {
             echo json_encode([
                 'success' => false,
                 'message' => 'Missing required parameters: carId and status'
@@ -136,8 +140,8 @@ class CarController
         }
         
         // Get and sanitize parameters
-        $carId = (int)$_POST['carId'];
-        $status = htmlspecialchars($_POST['status']);
+        $carId = (int)$data['carId'];
+        $status = htmlspecialchars($data['status']);
         
         // Validate status value
         if (!in_array($status, ['available', 'unavailable'])) {
@@ -173,6 +177,11 @@ class CarController
                 'message' => 'Error: ' . $e->getMessage()
             ]);
         }
+    }
+    public function carTable()
+    {
+        $cars = $this->carRepository->getAllCars();
+        require 'views/admin/car-list.php';
     }
 }
 ?>

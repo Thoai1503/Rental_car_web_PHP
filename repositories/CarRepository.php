@@ -5,12 +5,15 @@ class CarRepository
 
     private $pdo;
     private $table = 'cars';
-
+    public $cars = [];
+                    private Car $car;
     public function __construct($pdo)
     {
+        
         require_once 'models/Car.php';
         require_once 'helpers/function.php';
         $this->pdo = $pdo;
+      
     }
 
     public function getAllCars()
@@ -25,6 +28,8 @@ class CarRepository
     {
         $car= new Car($id=0,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
  
+        $this->cars[]= $car;
+        
         $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name,brand,type,fuel_type,seats,transmission, price_per_day, image) VALUES (?, ?, ?,?, ?, ?, ?, ?)");
         return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage()]);
     }

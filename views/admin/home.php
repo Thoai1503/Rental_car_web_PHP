@@ -57,7 +57,7 @@ ob_start(); // Start output buffering
             button.addEventListener("click", function () {
                 let itemId = this.getAttribute("data-id"); // Lấy ID của item
                // alert(itemId);
-            document.getElementsByClassName("modal-body")[0].textContent += itemId; // Hiển thị trong modal
+            document.getElementsByClassName("modal-body")[0].textContent = "Bạn có chắc muốn xoá chiếc xe " +  itemId; // Hiển thị trong modal
                 document.getElementsByClassName("save-btn")[0].href +=  itemId; // Set href cho nút Delete
             });
         });
@@ -70,5 +70,5 @@ ob_start(); // Start output buffering
 $content = ob_get_clean();
 // var_dump($content); // Debugging line to check the content
 // die();
-require 'views/_layout/main.php';
+require 'views/_layout/admin.php';
 ?>

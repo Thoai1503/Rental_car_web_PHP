@@ -9,12 +9,16 @@ class AdminController{
     public function index()
     {
         $cars = $this->carRepository->getAllCars();
-        require 'views/admin/index.php';
-    }       
+        require_once 'views/admin/index.php';
+    }          
+    
+    
     public function addView()
     {
         require 'views/admin/add-car.php';
     }
+
+
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
