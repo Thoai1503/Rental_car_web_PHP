@@ -3,12 +3,15 @@
 
 class Car
 {
-    private $pdo;
+   
     private $table = 'cars';
     private int $id =0;
     private string $name;
-    private string $brand;
-    private string $type;
+    private int $brand;
+    private int $type;
+    
+    private string $brand_name;
+    private string $type_name;
     private string $fuel_type;
     private int $seats;
     private string $transmission;
@@ -18,10 +21,11 @@ class Car
     private DateTime $created_at;
     private $updated_at;  
     
+    private $status ='available';
 
 
 
-    public function __construct($id=0,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image)
+    public function __construct($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image,$status)
     {
         $this->id = $id;
         $this->name = $name;
@@ -32,6 +36,7 @@ class Car
         $this->transmission = $transmission;
         $this->price_per_day = $price_per_day;
         $this->image = $image;
+        $this->status = $status;
     }
 
     public function getId()
@@ -70,6 +75,12 @@ class Car
     {
         return $this->image;
     }
+
+    public function getBrandName()
+    {
+        return $this->brand_name;
+    }
+        
     public function getCreatedAt()
     {
         return $this->created_at;
@@ -77,6 +88,10 @@ class Car
     public function getUpdatedAt()
     {
         return $this->updated_at;
+    }
+    public function getStatus()
+    {
+        return $this->status;
     }
   
  

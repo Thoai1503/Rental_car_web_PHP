@@ -12,6 +12,7 @@ $requestUri = str_replace('/car_rent', '', $requestUri);
 
 if($requestUri === '/index.php' || $requestUri === '/') {
  // var_dump(value: __DIR__);die();
+ //dd($_SERVER);die();
   $carController = new CarController(new CarRepository($pdo));
   $carController->index();
 
@@ -41,6 +42,13 @@ if($requestUri === '/index.php' || $requestUri === '/') {
       $carController = new CarController(new CarRepository($pdo));
       $carController->delete($id);
 
+   }   elseif($requestUri === '/cars') {
+        $id=(int)explode('/', $requestUri)[2];
+        $carController = new CarController(new CarRepository($pdo));
+        $carController->show($id);
+    
+    
+    
 
   
 
@@ -49,12 +57,7 @@ if($requestUri === '/index.php' || $requestUri === '/') {
     $carController->delete($_POST['id']);
 
 
-  }elseif(str_contains($requestUri,'editcar')) {
-    $id=(int)explode('/', $requestUri)[2];
-    $carController = new CarController(new CarRepository($pdo));
-    $carController->show($id);
-
-}
+  }
 
 elseif($requestUri === '/admin'){
  // var_dump($requestUri);die();
@@ -63,24 +66,24 @@ elseif($requestUri === '/admin'){
 
 
 }
+elseif(str_contains($requestUri,'admin/editcar')) {
+  $id=(int)explode('/', $requestUri)[3];
+  $carController = new CarController(new CarRepository($pdo));
+  $carController->show($id);
+
+}
 
 elseif($requestUri === '/admin/addcar'){
   $adminController = new AdminController(new CarRepository($pdo));
   $adminController->addView();
 }
  elseif($requestUri === '/admin/cars-list') {
-  $carController = new CarController(new CarRepository($pdo));
-  $carController->carTable();
+  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController->carTable();
 
 
 } 
- elseif(str_contains($requestUri,'/cars')) {
-    $id=(int)explode('/', $requestUri)[2];
-    $carController = new CarController(new CarRepository($pdo));
-    $carController->show($id);
 
-
-}
 
 elseif($requestUri === '/admin/updateCarStatus') {
   $carController = new CarController(new CarRepository($pdo));

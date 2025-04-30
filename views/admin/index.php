@@ -2,7 +2,7 @@
 ob_start(); // Start output buffering
 ?>
 
-<main>
+        <main>
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">Dashboard</h1>
                     <ol class="breadcrumb mb-4">
@@ -13,7 +13,8 @@ ob_start(); // Start output buffering
                             <div class="card bg-primary text-white mb-4">
                                 <div class="card-body">Primary Card</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
+                                    <a class
+                                    ="small text-white stretched-link" href="#">View Details</a>
                                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                 </div>
                             </div>
@@ -78,24 +79,26 @@ ob_start(); // Start output buffering
                                 <thead>
                                     <tr>
                                         <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
+                                        <th>Tên Xe</th>
+                                        <th>Hãng xe</th>
+                                        <th>Loại xe</th>
                                         <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Số chỗ</th>
+                                   
+                                     
+                                        <th>Hộp số</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
+                                    <th>Image</th>
+                                        <th>Tên Xe</th>
+                                        <th>Hãng xe</th>
+                                        <th>Loại xe</th>
                                         <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>Số chỗ</th>
+                                        <th>Hộp số</th>
                                         <th>Status</th>
                                     </tr>
                                 </tfoot>
@@ -105,24 +108,24 @@ ob_start(); // Start output buffering
                                             foreach($cars as $car){
                                                 ?>
                                     <tr>
-                                        <td><img src="uploads/<?= $car['image'] ?>" alt="<?= $car['name'] ?>"
+                                        <td><img src="uploads/<?= $car->getImage() ?>" alt="<?= $car->getName() ?>"
                                                 width="90"></td>
-                                        <td><?= $car['name'] ?></td>
-                                        <td><?= $car['brand_id'] ?></td>
-                                        <td><?= $car['type'] ?></td>
-                                        <td><?= $car['fuel_type'] ?></td>
-                                        <td><?= $car['seats'] ?></td>
-                                        <td><?= $car['transmission'] ?></td>
+                                        <td><?= $car->getName() ?></td>
+                                        <td><?= $car->getBrand() ?></td>
+                                        <td><?= $car->getType() ?></td>
+                                        <td><?= $car->getBrand() ?></td>
+                                        <td><?= $car->getSeats() ?></td>
+                                        <td><?= $car->getTransmission() ?></td>
                                         <td>
                                             <?php
-                                                        if($car['status'] == "available"){
+                                                        if($car->getStatus() == "available"){
                                                             ?>
-                                            <input type="checkbox" checked value="" data-id="<?= $car['id'] ?>"
+                                            <input type="checkbox" checked value="" data-id="<?= $car->getId() ?>"
                                                 onchange="updateStatus2(event)" />
                                             <?php
                                                         }else{
                                                             ?>
-                                            <input type="checkbox" value="" data-id="<?= $car['id'] ?>"
+                                            <input type="checkbox" value="" data-id="<?= $car->getId() ?>"
                                                 onchange="updateStatus2(event)" />
                                             <?php
                                                         }
@@ -143,14 +146,11 @@ ob_start(); // Start output buffering
                     </div>
                 </div>
             </main>
-            <button type="button" class="btn btn-primary" onclick="test()">
-                Load Doc
-  Launch demo modal
-</button>
+          
 
 
 
-            <footer class="py-4 bg-light mt-auto">
+            <!-- <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
@@ -160,10 +160,35 @@ ob_start(); // Start output buffering
                             <a href="#">Terms &amp; Conditions</a>
                         </div>
                     </div>
-                </div>
-            </footer>
-        </div>
+                </div>  
+            </footer> -->
+        
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
+    
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -213,6 +238,10 @@ function updateStatus2(event) {
     var carId = checkbox.getAttribute("data-id");
     var status = checkbox.checked ? "available" : "unavailable";
     
+    const modal = document.getElementById('exampleModal');
+  
+  // Initialize Bootstrap modal
+  const bootstrapModal = new bootstrap.Modal(modal);
     // Use jQuery AJAX for better browser compatibility and cleaner code
     // $.ajax({
     //     url: "admin/updateCarStatus",
@@ -248,6 +277,8 @@ function updateStatus2(event) {
                 .then(response => response.json())
                 .then(response => {
                     console.log('Server Response:', response.data.carId); // Xử lý phản hồi từ server nếu cần
+                    document.querySelector('.modal-body').innerHTML ="Car have ID: "+ response.data.carId +" change into " +response.data.status + " successfully"|| 'Request was successful!';
+                    bootstrapModal.show();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -273,7 +304,7 @@ function updateStatus2(event) {
                     alert('Server Response:', response); // Xử lý phản hồi từ server nếu cần
                 },
                 error: function(xhr, status, error) {
-                    console.error('Error test 1:', error);
+                    console.error('Error test 1:', error); 
                 }
             });
         }
@@ -282,7 +313,7 @@ function updateStatus2(event) {
     
         $.ajax({
             method: 'POST',
-            url: "admin",
+            url: "admin",                               
             data: {  name: 'John', age: 30  },
             dataType: 'json',
             success: function(response) {
@@ -310,6 +341,10 @@ function updateStatus2(event) {
                     console.error('Error:', error);
                 });
         }
+
+
+        
+
   
 </script>
 

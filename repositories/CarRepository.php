@@ -1,6 +1,7 @@
 <?php
 
-class CarRepository
+require_once 'repositories/BaseRepositoryInterface.php';
+class CarRepository implements BaseRepositoryInterface
 {
 
     private $pdo;
@@ -16,55 +17,71 @@ class CarRepository
       
     }
 
-    public function getAllCars()
+    public function getAll(): array
     {
       //  var_dump($this->pdo);die();
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+       $cars=  $stmt->fetchAll(PDO::FETCH_ASSOC);
+         
+         foreach ($cars as $carData) {
+            $this->cars[] = new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+        }
+        return $this->cars;
+    }
+    // Rewrite the second method to get all cars using mapping through the Car class
+    public function getAllCarsMapped()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
+        $stmt->execute();
+        $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($cars as $carData) {
+            $this->cars[] = new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+        }
+        return $this->cars;
     }
 
-    public function addCar($name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image)
+    public function create($data)
     {
-        $car= new Car($id=0,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
- 
-        $this->cars[]= $car;
+        $car= new Car(0,$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $data['image'],"available");
         
         $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name,brand,type,fuel_type,seats,transmission, price_per_day, image) VALUES (?, ?, ?,?, ?, ?, ?, ?)");
         return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage()]);
     }
 
-    public function updateCar($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image)
+    public function update($data)
     { 
       //  var_dump($_REQUEST);die();
         
-        if($image!=""){
-        $car= new Car($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
+        if($data['image']!=""){
+        $car= new Car( $data['id'],$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $image="",$status="available");
        // var_dump($car);die();
         $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand =?,type=?,fuel_type=?,seats=?,transmission =?, price_per_day = ?, image = ? WHERE id = ?");
-        return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage(),$id]);
+        return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage(),$car->getId()]);
         }
         else{
-            $car= new Car($id,$name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image="");
+            $car= new Car( $data['id'],$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $image="",$status="available");
             $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand =?,type=?,fuel_type=?,seats=?,transmission =?, price_per_day = ? WHERE id = ?");
-            return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(),$id]);
+            return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(),$car->getId()]);
         }
     }
 
-    public function deleteCar($id)
+    public function delete(int $id)
     {
         $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
-    public function getCarById($id)
+    public function getById(int $id)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result= $stmt->fetch(PDO::FETCH_ASSOC);
+        $car = new Car($result['id'], $result['name'], $result['brand_id'], $result['type_id'], $result['fuel_type'], $result['seats'], $result['transmission'], $result['price_per_day'], $result['image'], $result['status']);
+        return $car;
     }
 
-    public function searchCars($keyword)
+    public function search($keyword)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE name LIKE ?");
         $stmt->execute(["%$keyword%"]);

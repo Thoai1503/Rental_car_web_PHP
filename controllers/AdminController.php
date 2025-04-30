@@ -8,7 +8,7 @@ class AdminController{
     }
     public function index()
     {
-        $cars = $this->carRepository->getAllCars();
+        $cars = $this->carRepository->getAllCarsMapped();
         require_once 'views/admin/index.php';
     }          
     
@@ -38,6 +38,17 @@ class AdminController{
         } else {
             require 'views/admin/add-car.php';
         }
+}
+public function carTable()
+{
+    $cars = $this->carRepository->getAllCarsMapped();
+    require 'views/admin/car-list.php';
+}
+
+public function carTypeTable()
+{
+    
+    require 'views/admin/car-type-list.php';
 }
 }
 ?>

@@ -4,7 +4,8 @@
 <?php
 ob_start(); // Start output buffering
 ?>
-<di class="container mt-5">
+<main>
+<div class="container-fluid px-4">
     <h1 class="text-center">Thêm xe</h1>
     <form action="./cars-add" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
@@ -46,6 +47,7 @@ ob_start(); // Start output buffering
     </form>
 </div>
 
+</main>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
