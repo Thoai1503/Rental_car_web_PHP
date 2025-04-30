@@ -82,7 +82,7 @@ ob_start(); // Start output buffering
                                         <th>Tên Xe</th>
                                         <th>Hãng xe</th>
                                         <th>Loại xe</th>
-                                        <th>Age</th>
+                                        <th>Chức năng</th>
                                         <th>Số chỗ</th>
                                    
                                      
@@ -96,7 +96,7 @@ ob_start(); // Start output buffering
                                         <th>Tên Xe</th>
                                         <th>Hãng xe</th>
                                         <th>Loại xe</th>
-                                        <th>Age</th>
+                                        <th>Chức năng</th>
                                         <th>Số chỗ</th>
                                         <th>Hộp số</th>
                                         <th>Status</th>
@@ -111,8 +111,8 @@ ob_start(); // Start output buffering
                                         <td><img src="uploads/<?= $car->getImage() ?>" alt="<?= $car->getName() ?>"
                                                 width="90"></td>
                                         <td><?= $car->getName() ?></td>
-                                        <td><?= $car->getBrand() ?></td>
-                                        <td><?= $car->getType() ?></td>
+                                        <td><?= $car->getBrandName() ?></td>
+                                        <td><?= $car->getTypeName() ?></td>
                                         <td><?= $car->getBrand() ?></td>
                                         <td><?= $car->getSeats() ?></td>
                                         <td><?= $car->getTransmission() ?></td>

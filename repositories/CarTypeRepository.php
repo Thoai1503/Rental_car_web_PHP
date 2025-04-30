@@ -2,13 +2,41 @@
     require_once  'BaseRepositoryInterface.php';
     class CarTypeRepository implements BaseRepositoryInterface{
 
-        public function getAll(): array {
-            // Implement logic to retrieve all car types
-            return [];
+
+        private $pdo;
+        private $table = 'car_types';
+        public $car_types = [];
+
+        public function __construct($pdo)
+        {
+            require_once 'models/CarType.php';
+            require_once 'helpers/function.php';
+            $this->pdo = $pdo;  
         }
 
-        public function getById(int $id): object|null {
-            // Implement logic to retrieve a car type by ID
+        public function getAll(): array {
+            
+            $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
+            $stmt->execute();
+            $car_types = $stmt->fetchAll(PDO::FETCH_ASSOC);
+           $results =[];
+            foreach ($car_types as $carTypeData) {
+                $car=new CarType($carTypeData['id'], $carTypeData['name']);
+               $results[] = $car;
+            }
+            return $results;
+        }
+
+        public function getById(int $id) {
+           
+            $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+            $stmt->execute([$id]);
+            $carTypeData = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($carTypeData) {
+               $carType= new CarType($carTypeData['id'], $carTypeData['name']);
+               return $carType->getName();
+            }
+          
             return null;
         }
 

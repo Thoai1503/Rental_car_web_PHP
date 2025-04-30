@@ -2,6 +2,8 @@
 require_once 'controllers/CarController.php';
 require_once 'repositories/CarRepository.php';
 require_once 'controllers/AdminController.php';
+require_once 'repositories/CarTypeRepository.php';
+
 
 require_once 'helpers/function.php';
 $pdo = require_once 'config/database.php';
@@ -23,13 +25,7 @@ if($requestUri === '/index.php' || $requestUri === '/') {
     require_once 'views/add-car.php';
 
 
-  } elseif($requestUri === '/admin/cars-add'){
-    $carController = new CarController(new CarRepository($pdo));
-    $carController->add();
-
-    
-
-} 
+  } 
  elseif(str_contains($requestUri,'cars-edit')) {
   $id=(int)explode('/', $requestUri)[2];
     $carController = new CarController(new CarRepository($pdo));
@@ -61,7 +57,7 @@ if($requestUri === '/index.php' || $requestUri === '/') {
 
 elseif($requestUri === '/admin'){
  // var_dump($requestUri);die();
-  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController = new AdminController($pdo);
   $adminController->index();
 
 
@@ -74,11 +70,28 @@ elseif(str_contains($requestUri,'admin/editcar')) {
 }
 
 elseif($requestUri === '/admin/addcar'){
-  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController = new AdminController($pdo);
   $adminController->addView();
 }
+elseif($requestUri === '/admin/cars-add'){
+  $carController = new CarController($pdo);
+  $carController->add();
+
+  
+
+}  elseif($requestUri === '/admin/cars-delete'){
+  $carController = new CarController($pdo);
+  $carController->delete($_POST['id']);
+
+
+}  elseif($requestUri === '/admin/cars-list') {
+  $adminController = new AdminController($pdo);
+  $adminController->carTable();
+
+}
+
  elseif($requestUri === '/admin/cars-list') {
-  $adminController = new AdminController(new CarRepository($pdo));
+  $adminController = new AdminController($pdo);
   $adminController->carTable();
 
 

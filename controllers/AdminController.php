@@ -1,14 +1,22 @@
 <?php
+require_once 'repositories/CarRepository.php';
+require_once 'repositories/CarTypeRepository.php';
 class AdminController{
 
-    private $carRepository;
-    public function __construct($carRepository)
+    private $pdo;
+        private $carRepository;
+    private $carTypeRepository;
+    public function __construct($pdo)
     {
-        $this->carRepository = $carRepository;
+     
+        $this->pdo = $pdo;
+        $this->carRepository = new CarRepository($this->pdo);
+        $this->carTypeRepository = new CarTypeRepository($this->pdo);
     }
     public function index()
     {
-        $cars = $this->carRepository->getAllCarsMapped();
+        $cars = $this->carRepository->getAll();
+        $carTypes = $this->carTypeRepository->getAll();
         require_once 'views/admin/index.php';
     }          
     
@@ -33,7 +41,7 @@ class AdminController{
             $target_dir = "uploads/";
             $target_file = $target_dir.$image;
             move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-            $this->carRepository->addCar($name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
+            $this->carRepository->create($name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
             header('Location: /admin');
         } else {
             require 'views/admin/add-car.php';

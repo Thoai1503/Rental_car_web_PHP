@@ -80,6 +80,10 @@ class Car
     {
         return $this->brand_name;
     }
+    public function getTypeName()
+    {
+        return $this->type_name;
+    }
         
     public function getCreatedAt()
     {
@@ -93,7 +97,37 @@ class Car
     {
         return $this->status;
     }
-  
- 
+   public function setName($name)
+    {
+        $this->name = $name;
+    }
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+    }
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+    public function setFuelType($fuel_type)
+    {
+        $this->fuel_type = $fuel_type;
+    }
+    public function setSeats($seats)
+    {
+        $this->seats = $seats;
+    }
+    public function setTransmission($transmission)
+    {
+        $this->transmission = $transmission;
+    }
+     public function setTypeName($type_name)
+    {
+        $this->type_name = $type_name;
+    }
+    public function setBrandName($brand_name)
+    {
+        $this->brand_name = $brand_name;
+    }
 }
-?>
+?>x

@@ -1,19 +1,26 @@
 <?php
 
 require_once 'repositories/BaseRepositoryInterface.php';
+
 class CarRepository implements BaseRepositoryInterface
 {
 
     private $pdo;
     private $table = 'cars';
     public $cars = [];
-                    private Car $car;
+    private $carTypeRepository;
+    private $carBrandRepository;
+                  
     public function __construct($pdo)
     {
-        
+      
         require_once 'models/Car.php';
         require_once 'helpers/function.php';
+        require_once 'repositories/CarTypeRepository.php';
+        require_once 'repositories/CarBrandRepository.php';
         $this->pdo = $pdo;
+        $this->carTypeRepository = new CarTypeRepository($this->pdo);
+        $this->carBrandRepository = new CarBrandRepository($this->pdo);
       
     }
 
@@ -23,11 +30,15 @@ class CarRepository implements BaseRepositoryInterface
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
         $stmt->execute();
        $cars=  $stmt->fetchAll(PDO::FETCH_ASSOC);
-         
+         $results =[];
          foreach ($cars as $carData) {
-            $this->cars[] = new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+            $item= new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+            $item->setTypeName($this->carTypeRepository->getById($carData['type_id']));
+            $item->setBrandName($this->carBrandRepository->getById($carData['brand_id']));
+
+            $results[] = $item;
         }
-        return $this->cars;
+        return $results;
     }
     // Rewrite the second method to get all cars using mapping through the Car class
     public function getAllCarsMapped()
