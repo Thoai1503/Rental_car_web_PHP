@@ -20,14 +20,9 @@ if($requestUri === '/index.php' || $requestUri === '/') {
 
 
 } 
-  elseif($requestUri === '/addcar') {
-    $title = 'Thêm xe';
-    require_once 'views/add-car.php';
-
-
-  } 
+ 
  elseif(str_contains($requestUri,'cars-edit')) {
-  $id=(int)explode('/', $requestUri)[2];
+  $id=(int)explode('/', $requestUri)[3];
     $carController = new CarController(new CarRepository($pdo));
     $carController->edit($id);
 

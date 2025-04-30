@@ -65,9 +65,9 @@ class CarRepository implements BaseRepositoryInterface
       //  var_dump($_REQUEST);die();
         
         if($data['image']!=""){
-        $car= new Car( $data['id'],$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $image="",$status="available");
+        $car= new Car( $data['id'],$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $data['image'],$status="available");
        // var_dump($car);die();
-        $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand =?,type=?,fuel_type=?,seats=?,transmission =?, price_per_day = ?, image = ? WHERE id = ?");
+        $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand_id =?,type_id=?,fuel_type=?,seats=?,transmission =?, price_per_day = ?, image = ? WHERE id = ?");
         return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage(),$car->getId()]);
         }
         else{
@@ -85,11 +85,23 @@ class CarRepository implements BaseRepositoryInterface
 
     public function getById(int $id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
-        $stmt->execute([$id]);
-        $result= $stmt->fetch(PDO::FETCH_ASSOC);
-        $car = new Car($result['id'], $result['name'], $result['brand_id'], $result['type_id'], $result['fuel_type'], $result['seats'], $result['transmission'], $result['price_per_day'], $result['image'], $result['status']);
-        return $car;
+        try{
+            $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+            $stmt->execute([$id]);
+            $carData = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($carData) {
+                $car= new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+                return $car;
+            }
+        }catch(Exception $e){
+            echo "Error: " . $e->getMessage();
+        }
+        
+        // $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+        // $stmt->execute([$id]);
+        // $result= $stmt->fetch(PDO::FETCH_ASSOC);
+        // $car = new Car($result['id'], $result['name'], $result['brand_id'], $result['type_id'], $result['fuel_type'], $result['seats'], $result['transmission'], $result['price_per_day'], $result['image'], $result['status']);
+        // return $car;
     }
 
     public function search($keyword)

@@ -130,4 +130,4 @@ class Car
         $this->brand_name = $brand_name;
     }
 }
-?>x
+?>

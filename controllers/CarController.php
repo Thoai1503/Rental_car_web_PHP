@@ -68,7 +68,7 @@ class CarController
                     echo 'File size exceeds the limit.';
                     return;
                 }
-                if ($car['image'] != '' && strlen($car['image']) > 20) {
+                if ($car->getImage() != '' && strlen($car->getImage()) > 20) {
                     //`   var_dump("uploads/".$car['image']);die();
                     unlink('uploads/' . $car['image']);
 
