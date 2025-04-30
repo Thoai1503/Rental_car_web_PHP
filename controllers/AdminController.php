@@ -1,17 +1,20 @@
 <?php
 require_once 'repositories/CarRepository.php';
 require_once 'repositories/CarTypeRepository.php';
+require_once 'repositories/CarBrandRepository.php';
 class AdminController{
 
     private $pdo;
         private $carRepository;
     private $carTypeRepository;
+    private $carBrandRepository;
     public function __construct($pdo)
     {
      
         $this->pdo = $pdo;
         $this->carRepository = new CarRepository($this->pdo);
         $this->carTypeRepository = new CarTypeRepository($this->pdo);
+        $this->carBrandRepository = new CarBrandRepository($this->pdo);
     }
     public function index()
     {
@@ -23,6 +26,8 @@ class AdminController{
     
     public function addView()
     {
+        $carTypes = $this->carTypeRepository->getAll();
+        $carBrands = $this->carBrandRepository->getAll();   
         require 'views/admin/add-car.php';
     }
 

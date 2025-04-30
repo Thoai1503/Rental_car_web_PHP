@@ -40,10 +40,6 @@ require_once 'BaseRepositoryInterface.php';
         return null;
     }
 
-    public function getByField(string $field, $value): object|null {
-        // Implement logic to retrieve a car brand by a specific field
-        return null;
-    }
 
     public function create(array $car): bool {
         // Implement logic to create a new car brand

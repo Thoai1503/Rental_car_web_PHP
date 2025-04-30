@@ -40,7 +40,7 @@ class CarRepository implements BaseRepositoryInterface
         }
         return $results;
     }
-    // Rewrite the second method to get all cars using mapping through the Car class
+
     public function getAllCarsMapped()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
