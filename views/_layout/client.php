@@ -92,12 +92,12 @@
         </div>
       </header>
 
-      <div class="ftco-blocks-cover-1">
-        <div
-          class="ftco-cover-1 overlay"
-          style="background-image: url('http://localhost/car_rent/public/client/images/hero_1.jpg')"
+      <div class="ftco-blocks-cover-1" >
+        <div 
+          class="ftco-cover-1 overlay  <?=$_SESSION['displayForm']?'':'innerpage'?>"
+          style="background-image: url(<?=$_SESSION['displayForm']?'http://localhost/car_rent/public/client/images/hero_1.jpg':'http://localhost/car_rent/public/client/images/hero_2.jpg'?>);"
         >
-          <div class="container">
+          <div class="container" style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
             <div class="row align-items-center">
               <div class="col-lg-5">
                 <div class="feature-car-rent-box-1">

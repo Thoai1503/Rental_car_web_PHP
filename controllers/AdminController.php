@@ -5,7 +5,7 @@ require_once 'repositories/CarBrandRepository.php';
 class AdminController{
 
     private $pdo;
-        private $carRepository;
+    private $carRepository;
     private $carTypeRepository;
     private $carBrandRepository;
     public function __construct($pdo)
@@ -43,10 +43,22 @@ class AdminController{
             $transmission = $_POST['transmission'];
             $price_per_day = $_POST['price_per_day'];
             $image = randomString(8) . basename($_FILES["image"]["name"]);
+            
+            $data = [
+                'name' => $name,
+                'brand' => $brand,
+                'type' => $type,
+                'fuel_type' => $fuel_type,
+                'seats' => $seats,
+                'transmission' => $transmission,
+                'price_per_day' => $price_per_day,
+                'image' => $image
+            ];
+
             $target_dir = "uploads/";
             $target_file = $target_dir.$image;
             move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-            $this->carRepository->create($name,$brand,$type,$fuel_type,$seats,$transmission, $price_per_day, $image);
+            $this->carRepository->create($data);
             header('Location: /admin');
         } else {
             require 'views/admin/add-car.php';
@@ -60,7 +72,6 @@ public function carTable()
 
 public function carTypeTable()
 {
-    
     require 'views/admin/car-type-list.php';
 }
 }

@@ -31,7 +31,7 @@ class HomeController
     {
         $_SESSION['displayForm'] = false;
         $cars = $this->carRepository->getAllCarsMapped();
-        require 'views/client/carlist.php';
+        require_once 'views/client/carlist.php';
     }
 }
 

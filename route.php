@@ -17,7 +17,7 @@ $requestUri = str_replace('/car_rent', '', $requestUri);
 //route for client
 if($requestUri === '/index' || $requestUri === '/') {
 
-$homeController = new HomeController($pdo);
+  $homeController = new HomeController($pdo);
   $homeController->index();
   } elseif($requestUri === '/carlist') {
   
