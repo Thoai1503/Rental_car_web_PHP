@@ -3,6 +3,9 @@ require_once 'controllers/CarController.php';
 require_once 'repositories/CarRepository.php';
 require_once 'controllers/AdminController.php';
 require_once 'repositories/CarTypeRepository.php';
+require_once 'repositories/CarBrandRepository.php';
+require_once 'controllers/HomeController.php';
+
 
 
 require_once 'helpers/function.php';
@@ -10,18 +13,25 @@ $pdo = require_once 'config/database.php';
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestUri = str_replace('/car_rent', '', $requestUri);
 
-//var_dump($requestUri);
 
+//route for client
 if($requestUri === '/index.php' || $requestUri === '/') {
- // var_dump(value: __DIR__);die();
- //dd($_SERVER);die();
-  $carController = new CarController(new CarRepository($pdo));
-  $carController->index();
 
-
+$homeController = new HomeController($pdo);
+  $homeController->index();
+  } elseif($requestUri === '/cars') {
+    $carController = new CarController(new CarRepository($pdo));
+    $carController->index();
+  } elseif($requestUri === '/cars-add') {
+    $carController = new CarController(new CarRepository($pdo));
+    $carController->add();
+      
+  
 } 
+ //end of route for client
  
- elseif(str_contains($requestUri,'cars-edit')) {
+
+elseif(str_contains($requestUri,'cars-edit')) {
   $id=(int)explode('/', $requestUri)[3];
     $carController = new CarController(new CarRepository($pdo));
     $carController->edit($id);

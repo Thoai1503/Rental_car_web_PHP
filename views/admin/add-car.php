@@ -75,7 +75,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="brand" name="brand" required>
-                                            <option value="" selected disabled>Chọn hãng xe</option>
+                                            <option value="-1" selected disabled>Chọn hãng xe</option>
                                             <?php
                                             if (isset($carBrands) && count($carBrands) > 0) {
                                                 foreach ($carBrands as $brand) {
