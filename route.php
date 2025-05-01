@@ -15,17 +15,18 @@ $requestUri = str_replace('/car_rent', '', $requestUri);
 
 
 //route for client
-if($requestUri === '/index.php' || $requestUri === '/') {
+if($requestUri === '/index' || $requestUri === '/') {
 
 $homeController = new HomeController($pdo);
   $homeController->index();
-  } elseif($requestUri === '/cars') {
-    $carController = new CarController(new CarRepository($pdo));
-    $carController->index();
+  } elseif($requestUri === '/carlist') {
+  
+    $homeController = new HomeController($pdo);
+    $homeController->carList();
   } elseif($requestUri === '/cars-add') {
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
-      
+
   
 } 
  //end of route for client

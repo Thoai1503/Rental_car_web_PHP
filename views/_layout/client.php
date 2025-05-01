@@ -25,6 +25,23 @@
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/style.css" />
+
+
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/animate.css" />
+
+   
+
+  
+
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/ionicons.min.css" />
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/jquery.timepicker.css" />
+
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/flaticon.css" />
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/icomoon.css" />
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/style_copy.css" />
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -61,10 +78,10 @@
               >
                 <ul class="site-menu main-menu js-clone-nav ml-auto">
                   <li class="active">
-                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index" class="nav-link">Home</a>
                   </li>
                   <li><a href="services.html" class="nav-link">Services</a></li>
-                  <li><a href="cars.html" class="nav-link">Cars</a></li>
+                  <li><a href="carlist" class="nav-link">Cars</a></li>
                   <li><a href="about.html" class="nav-link">About</a></li>
                   <li><a href="blog.html" class="nav-link">Blog</a></li>
                   <li><a href="contact.html" class="nav-link">Contact</a></li>
@@ -124,7 +141,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <form class="trip-form">
+              <form class="trip-form"  style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
                 <div class="row align-items-center mb-4">
                   <div class="col-md-6">
                     <h3 class="m-0">Begin your trip here</h3>
@@ -156,10 +173,12 @@
                     <input type="submit" value="Submit" class="btn btn-primary">
                   </div>
                 </div>
-              </form>
+              </form> 
+              
             </div>
           </div>
         </div>
+        
       </div>
 
       <div class="site-section bg-light">

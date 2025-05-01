@@ -26,6 +26,13 @@ class HomeController
         $cars = $this->carRepository->getAll();
         require_once 'views/client/index.php';
     }
+
+    public function carList()
+    {
+        $_SESSION['displayForm'] = false;
+        $cars = $this->carRepository->getAllCarsMapped();
+        require 'views/client/carlist.php';
+    }
 }
 
 ?>
