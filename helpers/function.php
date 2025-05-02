@@ -28,3 +28,28 @@ function uploadImage()
     $target_file = $target_dir.$$image;
     move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 }
+
+function array_find(array $array, callable $callback): mixed {
+    foreach ($array as $value) {
+        if ($callback($value)) {
+            return $value;
+        }
+    }
+    return null;
+}
+// function array_filter(array $array, callable $callback): array {
+//     $result = [];
+//     foreach ($array as $value) {
+//         if ($callback($value)) {
+//             $result[] = $value;
+//         }
+//     }
+//     return $result;
+// }
+// function array_map(array $array, callable $callback): array {
+//     $result = [];
+//     foreach ($array as $value) {
+//         $result[] = $callback($value);
+//     }
+//     return $result;
+// }

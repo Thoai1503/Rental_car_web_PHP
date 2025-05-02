@@ -27,7 +27,7 @@ class CarRepository implements BaseRepositoryInterface
     public function getAll(): array
     {
       //  var_dump($this->pdo);die();
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table}");
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE status = 'available'");
         $stmt->execute();
        $cars=  $stmt->fetchAll(PDO::FETCH_ASSOC);
          $results =[];

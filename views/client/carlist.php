@@ -3,7 +3,7 @@
   <div class="row">
     <!-- Enhanced Filter Sidebar -->
     <div class="col-lg-3 mb-4">
-      <form method="GET" action="" class="filter-sidebar p-4 rounded shadow-sm bg-white">
+      <form method="GET" action="searchfilter" class="filter-sidebar p-4 rounded shadow-sm bg-white">
         <h5 class="mb-4 border-bottom pb-2 fw-bold">Find Your Perfect Car</h5>
         
         <div class="mb-4">
@@ -95,7 +95,7 @@
     <div class="col-lg-9">
       <div class="row">
         <!-- Repeatable Car Item -->
-        <?php for ($i = 1; $i <= 6; $i++): ?>
+        <!-- <?php for ($i = 1; $i <= 6; $i++): ?>
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="item-1">
               <a href="#">
@@ -123,7 +123,46 @@
               </div>
             </div>
           </div>
-        <?php endfor; ?>
+        <?php endfor; ?> -->
+
+        <?php
+        if (isset($cars) && count($cars)>0){
+          foreach ($cars as $cars){
+        ?>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="item-1">
+              <a href="#">
+                <img src="http://localhost/car_rent/uploads/<?php echo $cars->getImage(); ?>" style="height: 150px;" alt="Image" class="img-fluid" />
+              </a>
+              <div class="item-1-contents">
+                <div class="text-center">
+                  <h3><a href="#"><?php echo $cars->getName(); ?></a></h3>
+                  <div class="rating">
+                    <?php for ($s = 0; $s < 5; $s++): ?>
+                      <span class="icon-star text-warning"></span>
+                    <?php endfor; ?>
+                  </div>
+                  <div class="rent-price"><span>$<?php echo $cars->getPricePerDay(); ?>/</span>day</div>
+                </div>
+                <ul class="specs">
+                  <li><span>Doors</span><span class="spec">4</span></li>
+                  <li><span>Seats</span><span class="spec">5</span></li>
+                  <li><span>Transmission</span><span class="spec">Automatic</span></li>
+                  <li><span>Minimum age</span><span class="spec">18 years</span></li>
+                </ul>
+                <div class="d-flex action">
+                  <a href="contact.html" class="btn btn-primary">Rent Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php
+          }
+        }else{
+          echo "<h3 class='text-center'>No Cars Available</h3>";
+        }
+        ?>
+
         
         <!-- Pagination -->
         <div class="col-12">

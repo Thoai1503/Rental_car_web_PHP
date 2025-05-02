@@ -36,7 +36,7 @@
 
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/ionicons.min.css" />
 
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/bootstrap-datepicker.css" />
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/jquery.timepicker.css" />
 
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/flaticon.css" />
@@ -141,7 +141,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <form class="trip-form"  style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
+              <form action="checkavailability" class="trip-form"  style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
                 <div class="row align-items-center mb-4">
                   <div class="col-md-6">
                     <h3 class="m-0">Begin your trip here</h3>
@@ -153,24 +153,24 @@
                 <div class="row">
                   <div class="form-group col-md-3">
                     <label for="cf-1">Where you from</label>
-                    <input type="text" id="cf-1" placeholder="Your pickup address" class="form-control">
+                    <input type="text" id="cf-1" placeholder="Your pickup address" class="form-control" name="address1" >
                   </div>
                   <div class="form-group col-md-3">
                     <label for="cf-2">Where you go</label>
-                    <input type="text" id="cf-2" placeholder="Your drop-off address" class="form-control">
+                    <input type="text" id="cf-2" placeholder="Your drop-off address" class="form-control" name="address2">
                   </div>
                   <div class="form-group col-md-3">
                     <label for="cf-3">Journey date</label>
-                    <input type="text" id="cf-3" placeholder="Your pickup address" class="form-control datepicker px-3">
+                    <input type="text" id="cf-3" placeholder="Your pickup address" class="form-control datepicker px-3" name="pickup_date">
                   </div>
                   <div class="form-group col-md-3">
                     <label for="cf-4">Return date</label>
-                    <input type="text" id="cf-4" placeholder="Your pickup address" class="form-control datepicker px-3">
+                    <input type="text" id="cf-4" placeholder="Your pickup address" class="form-control datepicker px-3" name="return_date">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-6">
-                    <input type="submit" value="Submit" class="btn btn-primary">
+                    <input type="submit" value="Check available car" class="btn btn-primary">
                   </div>
                 </div>
               </form> 

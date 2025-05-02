@@ -23,7 +23,22 @@ if($requestUri === '/index' || $requestUri === '/') {
   
     $homeController = new HomeController($pdo);
     $homeController->carList();
-  } elseif($requestUri === '/cars-add') {
+  } elseif($requestUri === '/searchfilter') {
+    $homeController = new HomeController($pdo);
+    $homeController->searchFilter();
+  
+  } elseif($requestUri === '/cardetails') {
+    $homeController = new HomeController($pdo);
+    $homeController->carDetails(); 
+
+  }
+
+
+  elseif($requestUri === '/checkavailability') {
+    $homeController = new HomeController($pdo);
+    $homeController->checkAvailability();
+  }
+   elseif($requestUri === '/cars-add') {
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
 
