@@ -23,7 +23,7 @@ if($requestUri === '/index' || $requestUri === '/') {
   
     $homeController = new HomeController($pdo);
     $homeController->carList();
-  } elseif($requestUri === '/searchfilter') {
+  } elseif($requestUri === '/searchfilter' ||str_contains($requestUri,'/searchfilter')) {
     $homeController = new HomeController($pdo);
     $homeController->searchFilter();
   

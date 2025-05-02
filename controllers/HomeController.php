@@ -40,39 +40,118 @@ class HomeController
     public function carList()
     {
         $_SESSION['displayForm'] = false;
+        $brands = $this->carBrandRepository->getAll();
         $cars = $this->carList;
-       // create pagination for 10 items per page
+        
+        // Get filter parameters
+        $transmission = isset($_GET['transmission']) ? $_GET['transmission'] : '';
+        $brand = isset($_GET['brand']) ? $_GET['brand'] : '';
+        $maxPrice = isset($_GET['price']) && is_numeric($_GET['price']) ? (float)$_GET['price'] : 0;
+        $carTypes = isset($_GET['car_type']) ? $_GET['car_type'] : [];
+        
+        // Apply filters if any
+        if ($transmission || $brand || $maxPrice || !empty($carTypes)) {
+            $filteredCars = [];
+            foreach ($cars as $car) {
+                $include = true;
+                
+                // Filter by transmission
+                if ($transmission && $car->getTransmission() !== $transmission) {
+                    $include = false;
+                }
+                
+                // Filter by brand
+                if ($brand && $car->getBrandId() != $brand) {
+                    $include = false;
+                }
+                
+                // Filter by price
+                if ($maxPrice > 0 && $car->getPricePerDay() > $maxPrice) {
+                    $include = false;
+                }
+                
+                // Filter by car type
+                if (!empty($carTypes)) {
+                    $carType = $car->getType();
+                    if (!in_array($carType, $carTypes)) {
+                        $include = false;
+                    }
+                }
+                
+                if ($include) {
+                    $filteredCars[] = $car;
+                }
+            }
+            $cars = $filteredCars;
+        }
+        
+        // Pagination
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-           $perPage = 9;
-           $total = count($cars);
-           $totalPages = ceil($total / $perPage);
-           $offset = ($page - 1) * $perPage;
-           $cars = array_slice($cars, $offset, $perPage);
-           $pagination = [
-               'total' => $total,
-               'perPage' => $perPage,
-               'currentPage' => $page,
-               'totalPages' => $totalPages,
-               'hasNextPage' => $page < $totalPages,
-               'hasPrevPage' => $page > 1,
-           ];
-      //   $cars = array_filter($cars, function($car) {
-       //     return $car->getBrand()==5;});
-
+        $perPage = 9;
+        $total = count($cars);
+        $totalPages = max(1, ceil($total / $perPage));
+        
+        // Ensure page is within valid range
+        $page = max(1, min($page, $totalPages));
+        
+        $offset = ($page - 1) * $perPage;
+        $cars = array_slice($cars, $offset, $perPage);
+        
+        $pagination = [
+            'total' => $total,
+            'perPage' => $perPage,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'hasNextPage' => $page < $totalPages,
+            'hasPrevPage' => $page > 1,
+        ];
+        
+        // Preserve filters in pagination links
+        $filterParams = '';
+        if ($transmission) {
+            $filterParams .= '&transmission=' . urlencode($transmission);
+        }
+        if ($brand) {
+            $filterParams .= '&brand=' . urlencode($brand);
+        }
+        if ($maxPrice) {
+            $filterParams .= '&price=' . urlencode($maxPrice);
+        }
+        if (!empty($carTypes)) {
+            foreach ($carTypes as $type) {
+                $filterParams .= '&car_type[]=' . urlencode($type);
+            }
+        }
+        
+        $pagination['filterParams'] = $filterParams;
+        
         require_once 'views/client/carlist.php';
     }
     public function searchFilter()
     {
         $_SESSION['displayForm'] = false;
         $cars = $this->carList;
-        if (isset($_GET['brand']) && $_GET['brand'] != '') {
-            $cars = array_filter($cars, function ($car) {
-                return $car->getBrand() == $_GET['brand'];
-            });
-        }
-   
-        require_once 'views/client/searchfilter.php';
+       
+
+        if($_SERVER["REQUEST_METHOD"] == "GET"){
+ 
+            header('Content-Type: application/json');
+     
+      
+         if (isset($_GET['brand']) ) {
+             $brand = htmlspecialchars($_GET['brand']); // Optional: basic sanitization
+            // $type = (int)$_GET['type'];
+       }
+            // Example logic: return a custom message
+                $response = [
+                    'status' => 'success',
+                    'message' => "Hello, $brand! You are 8 years old."
+                ];
+                echo json_encode($response);
+        
+            }
     }
+
     public function checkAvailability()
     {   
         $formmatDate = 'm/d/Y';

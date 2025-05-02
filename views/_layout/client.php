@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/flaticon.css" />
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/icomoon.css" />
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/style_copy.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
