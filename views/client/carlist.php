@@ -3,34 +3,32 @@
   <div class="row">
     <!-- Enhanced Filter Sidebar -->
     <div class="col-lg-3 mb-4">
-      <form method="GET" action="searchfilter" class="filter-sidebar p-4 rounded shadow-sm bg-white">
+      <form id="filter-form" class="filter-sidebar p-4 rounded shadow-sm bg-white">
         <h5 class="mb-4 border-bottom pb-2 fw-bold">Find Your Perfect Car</h5>
         
         <div class="mb-4">
           <label for="transmission" class="form-label fw-medium">Transmission</label>
           <select name="transmission" id="transmission" class="form-select form-select-sm border-0 bg-light">
             <option value="">All Transmissions</option>
-            <option value="automatic">Automatic</option>
-            <option value="manual">Manual</option>
+            <option value="automatic" <?php echo isset($_GET['transmission']) && $_GET['transmission'] === 'automatic' ? 'selected' : ''; ?>>Automatic</option>
+            <option value="manual" <?php echo isset($_GET['transmission']) && $_GET['transmission'] === 'manual' ? 'selected' : ''; ?>>Manual</option>
           </select>
         </div>
         
         <div class="mb-4">
-          <label for="min_age" class="form-label fw-medium">Brand</label>
-          <select name="brand" id="min_age" class="form-select form-select-sm border-0 bg-light">
+          <label for="brand" class="form-label fw-medium">Brand</label>
+          <select name="brand" id="brand" class="form-select form-select-sm border-0 bg-light">
             <option value="">All</option>
             <?php
-            if (isset($brands) && count($brands)>0){
-              foreach ($brands as $brand){
+            if (isset($brands) && count($brands) > 0) {
+              foreach ($brands as $brand) {
+                $selected = isset($_GET['brand']) && $_GET['brand'] == $brand->getId() ? 'selected' : '';
             ?>
-              <option value="<?php echo $brand->getId(); ?>"><?php echo $brand->getName(); ?></option>
+              <option value="<?php echo $brand->getId(); ?>" <?php echo $selected; ?>><?php echo $brand->getName(); ?></option>
             <?php
               }
-              }
+            }
             ?>
-            <!-- <option value="18">18+ years</option>
-            <option value="21">21+ years</option>
-            <option value="25">25+ years</option> -->
           </select>
         </div>
         
@@ -38,80 +36,35 @@
           <label for="price" class="form-label fw-medium">Max Price per Day</label>
           <div class="input-group">
             <span class="input-group-text bg-light border-0">$</span>
-            <input type="number" name="price" id="price" class="form-control form-control-sm border-0 bg-light" placeholder="e.g. 300">
+            <input type="number" name="price" id="price" class="form-control form-control-sm border-0 bg-light" 
+                   placeholder="e.g. 300" value="<?php echo isset($_GET['price']) ? htmlspecialchars($_GET['price']) : ''; ?>">
           </div>
         </div>
 
         <div class="mb-4">
           <label class="form-label fw-medium">Car Type</label>
           <div class="d-flex flex-wrap gap-2">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="sedan" id="sedan" name="car_type[]">
-              <label class="form-check-label small" for="sedan">Sedan</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="suv" id="suv" name="car_type[]">
-              <label class="form-check-label small" for="suv">SUV</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="coupe" id="coupe" name="car_type[]">
-              <label class="form-check-label small" for="coupe">Coupe</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="convertible" id="convertible" name="car_type[]">
-              <label class="form-check-label small" for="convertible">Convertible</label>
-            </div>
+            <?php
+              $carTypes = ['sedan', 'suv', 'coupe', 'convertible'];
+              $selectedTypes = isset($_GET['car_type']) ? $_GET['car_type'] : [];
+              
+              foreach ($carTypes as $type) {
+                $checked = in_array($type, $selectedTypes) ? 'checked' : '';
+            ?>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="<?php echo $type; ?>" 
+                       id="<?php echo $type; ?>" name="car_type[]" <?php echo $checked; ?>>
+                <label class="form-check-label small" for="<?php echo $type; ?>">
+                  <?php echo ucfirst($type); ?>
+                </label>
+              </div>
+            <?php } ?>
           </div>
         </div>
         
-        <script>
-
-function test1(event) {
-  var checkbox = event.target;
-        $.ajax({
-            url: 'searchfilter',
-            type: 'POST',
-            data: {
-                name: 'John',
-                age: 30
-            },
-            dataType: 'json',
-            success: function(response) {
-                console.log('Server Response:', response.message); // Xử lý phản hồi từ server nếu cần
-            },
-            error: function(xhr, status, error) {
-                console.error('Error test 1:', error);
-            }
-        });
-    }
-</script>
-        
-
-        <!-- <div class="mb-4">
-          <label class="form-label fw-medium">Features</label>
-          <div class="d-flex flex-wrap gap-2">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="gps" onchange="test1(event)" id="gps">
-              <label class="form-check-label small" for="gps">GPS</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="bluetooth" onchange="test1(event)" id="bluetooth">
-              <label class="form-check-label small" for="bluetooth">Bluetooth</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="sunroof" onchange="test1(event)" id="sunroof">
-              <label class="form-check-label small" for="sunroof">Sunroof</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="child_seat" onchange="test1(event)" id="child_seat">
-              <label class="form-check-label small" for="child_seat">Child Seat</label>
-            </div>
-          </div>
-        </div>
-    -->
         <div class="d-grid gap-2">
-          <button type="button" class="btn btn-primary" onclick="searchFilter()">Apply Filters</button>
-          <button type="reset" class="btn btn-outline-secondary btn-sm">Reset All</button>
+          <button type="button" class="btn btn-primary" id="apply-filters">Apply Filters</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="reset-filters">Reset All</button>
         </div>
       </form>
 
@@ -125,146 +78,202 @@ function test1(event) {
     
     <!-- Car Listings -->
     <div class="col-lg-9">
-      <div class="row">
-       
-
-        <?php
-        if (isset($cars) && count($cars)>0){
-          foreach ($cars as $cars){
-        ?>
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="item-1">
-              <a href="#">
-                <img src="http://localhost/car_rent/uploads/<?php echo $cars->getImage(); ?>" style="height: 150px;" alt="Image" class="img-fluid" />
-              </a>
-              <div class="item-1-contents">
-                <div class="text-center">
-                  <h3><a href="#"><?php echo $cars->getName(); ?></a></h3>
-                  <div class="rating">
-                    <?php for ($s = 0; $s < 5; $s++): ?>
-                      <span class="icon-star text-warning"></span>
-                    <?php endfor; ?>
-                  </div>
-                  <div class="rent-price"><span>$<?php echo $cars->getPricePerDay(); ?>/</span>day</div>
-                </div>
-                <ul class="specs">
-                  <li><span>Doors</span><span class="spec">4</span></li>
-                  <li><span>Seats</span><span class="spec">5</span></li>
-                  <li><span>Transmission</span><span class="spec">Automatic</span></li>
-                  <li><span>Minimum age</span><span class="spec">18 years</span></li>
-                </ul>
-                <div class="d-flex action">
-                  <a href="contact.html" class="btn btn-primary">Rent Now</a>
-                </div>
-              </div>
-            </div>
+      <!-- Filter Results Summary -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h4 class="mb-0">Available Cars</h4>
+          <p class="text-muted mb-0" id="results-count">
+            Showing <?php echo min($pagination['total'], $pagination['perPage']); ?> of <?php echo $pagination['total']; ?> cars
+          </p>
+        </div>
+        <div id="loading-indicator" class="d-none">
+          <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <!-- <span class="visually-hidden">Loading...</span> -->
           </div>
-        <?php
-          }
-        }else{
-          echo "<h3 class='text-center'>No Cars Available</h3>";
-        }
-        ?>
-
-        
-        <!-- Pagination -->
-        <div class="col-12">
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      <?php if ($pagination['hasPrevPage']): ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?php echo $pagination['currentPage'] - 1; ?>" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-      <?php else: ?>
-        <li class="page-item disabled">
-          <span class="page-link" aria-hidden="true">&laquo;</span>
-        </li>
-      <?php endif; ?>
+          <span class="ms-2 small text-muted">Updating results...</span>
+        </div>
+      </div>
       
-      <?php
-      // Determine range of page numbers to show
-      $startPage = max(1, $pagination['currentPage'] - 2);
-      $endPage = min($pagination['totalPages'], $pagination['currentPage'] + 2);
+      <!-- Car Listings Container -->
+      <div class="row" id="car-listings">
+        <?php require_once 'views/partial/_car_items.php'; ?>
+      </div>
       
-      // Always show first page
-      if ($startPage > 1): ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=1">1</a>
-        </li>
-        <?php if ($startPage > 2): ?>
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
-        <?php endif; ?>
-      <?php endif; ?>
-      
-      <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
-        <li class="page-item <?php echo $i === $pagination['currentPage'] ? 'active' : ''; ?>">
-          <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-        </li>
-      <?php endfor; ?>
-      
-      <?php 
-      // Always show last page
-      if ($endPage < $pagination['totalPages']): ?>
-        <?php if ($endPage < $pagination['totalPages'] - 1): ?>
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
-        <?php endif; ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?php echo $pagination['totalPages']; ?>"><?php echo $pagination['totalPages']; ?></a>
-        </li>
-      <?php endif; ?>
-      
-      <?php if ($pagination['hasNextPage']): ?>
-        <li class="page-item">
-          <a class="page-link" href="?page=<?php echo $pagination['currentPage'] + 1; ?>" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      <?php else: ?>
-        <li class="page-item disabled">
-          <span class="page-link" aria-hidden="true">&raquo;</span>
-        </li>
-      <?php endif; ?>
-    </ul>
-  </nav>
-</div>
-
-      </div> <!-- end row inside col-lg-9 -->
+      <!-- Pagination container -->
+      <div class="row mt-4">
+        <div class="col-12" id="pagination-container">
+          <?php require_once 'views/partial/_pagination.php'; ?>
+        </div>
+      </div>
     </div> <!-- end col-lg-9 -->
   </div> <!-- end main row -->
 </div> <!-- end container -->
 
-
-
 <script>
-function searchFilter() {
-  var form = document.querySelector('.filter-sidebar');
-  var formData = new FormData(form);
-  var params = new URLSearchParams(formData).toString();
+// Function to show loading indicator
+function showLoading() {
+  document.getElementById('loading-indicator').classList.remove('d-none');
+}
 
-  fetch('searchfilter?' + params, {
-    method: 'GET',
+// Function to hide loading indicator
+function hideLoading() {
+  document.getElementById('loading-indicator').classList.add('d-none');
+}
+
+// Function to serialize form data to JSON
+function serializeForm(form) {
+  const formData = new FormData(form);
+  const jsonData = {};
+  
+  formData.forEach((value, key) => {
+    // Handle checkboxes (car_type[])
+    if (key.endsWith('[]')) {
+      const cleanKey = key.slice(0, -2);
+      if (!jsonData[cleanKey]) {
+        jsonData[cleanKey] = [];
+      }
+      jsonData[cleanKey].push(value);
+    } else {
+      jsonData[key] = value;
+    }
+  });
+  
+  return jsonData;
+}
+
+// Function to update URL parameters without page reload
+function updateUrlParams(params) {
+  // Create a new URL object
+  const url = new URL(window.location.href);
+  
+  // Clear existing query parameters
+  url.search = '';
+  
+  // Add new parameters
+  Object.keys(params).forEach(key => {
+    if (Array.isArray(params[key])) {
+      params[key].forEach(value => {
+        url.searchParams.append(`${key}[]`, value);
+      });
+    } else if (params[key] !== '') {
+      url.searchParams.append(key, params[key]);
+    }
+  });
+  
+  // Update browser URL without reload
+  window.history.pushState({}, '', url);
+}
+
+// Function to handle all AJAX requests for both filtering and pagination
+function loadCars(page = 1) {
+  // Show loading indicator
+  showLoading();
+  
+  // Display loading state in car listings area
+  document.getElementById('car-listings').classList.add('opacity-50');
+  
+  // Get all filter form data
+  const form = document.getElementById('filter-form');
+  const jsonData = serializeForm(form);
+  
+  // Add the page parameter
+  jsonData.page = page;
+  jsonData.ajax = true;
+  
+  // Make AJAX POST request
+  fetch('carlist', {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest' // Add this header to identify AJAX requests
+    },
+    body: JSON.stringify(jsonData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Update car listings
+    document.getElementById('car-listings').innerHTML = data.carHtml;
+    
+    // Update pagination
+    document.getElementById('pagination-container').innerHTML = data.paginationHtml;
+    
+    // Update results count
+    const resultsCountText = `Showing ${Math.min(data.perPage, data.totalResults)} of ${data.totalResults} cars`;
+    document.getElementById('results-count').textContent = resultsCountText;
+    
+    // Update URL for bookmarking (excluding the ajax parameter)
+    const urlParams = {...jsonData};
+    delete urlParams.ajax;
+    updateUrlParams(urlParams);
+    
+    // Attach event listeners to new pagination links
+    attachPaginationHandlers();
+    
+    // Hide loading indicator
+    hideLoading();
+    document.getElementById('car-listings').classList.remove('opacity-50');
+    
+    // Scroll to top of listings if changing pages
+    if (page > 1) {
+      document.querySelector('.col-lg-9').scrollIntoView({ behavior: 'smooth' });
     }
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Success:', data);
-    // Handle the response data as needed
-  })
-  .catch((error) => {
-    console.error('Error:', error);
+  .catch(error => {
+    console.error('Error loading cars:', error);
+    document.getElementById('car-listings').innerHTML = '<div class="col-12 text-center"><div class="alert alert-danger">Error loading cars. Please try again.</div></div>';
+    hideLoading();
+    document.getElementById('car-listings').classList.remove('opacity-50');
   });
 }
+
+// Attach event handlers to pagination links
+function attachPaginationHandlers() {
+  const paginationLinks = document.querySelectorAll('.pagination-link');
+  paginationLinks.forEach(link => {
+    if (!link.parentElement.classList.contains('disabled') && 
+        !link.parentElement.classList.contains('active')) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const page = this.getAttribute('data-page');
+        if (page) {
+          loadCars(parseInt(page));
+        }
+      });
+    }
+  });
+}
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  // Handle filter form submission
+  document.getElementById('apply-filters').addEventListener('click', function(e) {
+    e.preventDefault();
+    loadCars(1); // Reset to first page when filtering
+  });
+  
+  // Handle filter reset
+  document.getElementById('reset-filters').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('filter-form').reset();
+    loadCars(1);
+  });
+  
+  // Enable "Enter" key on price input to apply filters
+  document.getElementById('price').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      loadCars(1);
+    }
+  });
+  
+  // Initial pagination setup
+  attachPaginationHandlers();
+});
 </script>
-
-
 
 <style>
 /* Custom CSS for Enhanced Filter Sidebar */
@@ -312,6 +321,37 @@ function searchFilter() {
 .filter-sidebar label {
   color: #495057;
   margin-bottom: 0.5rem;
+}
+
+/* Car item hover effect */
+.item-1 {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.item-1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Pagination styling */
+.pagination .page-link {
+  color: #0d6efd;
+  border-radius: 4px;
+  margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Loading state */
+.opacity-50 {
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
 }
 
 /* Responsive adjustments */

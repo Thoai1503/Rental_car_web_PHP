@@ -19,7 +19,7 @@ if($requestUri === '/index' || $requestUri === '/') {
 
   $homeController = new HomeController($pdo);
   $homeController->index();
-  } elseif($requestUri === '/carlist') {
+  } elseif($requestUri === '/carlist' || str_contains($requestUri,'/carlist')) {
   
     $homeController = new HomeController($pdo);
     $homeController->carList();

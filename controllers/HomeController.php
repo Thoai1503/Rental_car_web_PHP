@@ -37,96 +37,134 @@ class HomeController
         require_once 'views/client/index.php';
     }
 
-    public function carList()
-    {
-        $_SESSION['displayForm'] = false;
-        $brands = $this->carBrandRepository->getAll();
-        $cars = $this->carList;
+
+
+// CarController.php
+// Updated carList method with AJAX support
+
+public function carList() {
+    $_SESSION['displayForm'] = false;
+    $brands = $this->carBrandRepository->getAll();
+    $cars = $this->carList;
+    
+    // Determine if this is an AJAX request
+    $isAjax = false;
+    
+    // Check for AJAX POST request
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                 strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
         
-        // Get filter parameters
-        $transmission = isset($_GET['transmission']) ? $_GET['transmission'] : '';
-        $brand = isset($_GET['brand']) ? $_GET['brand'] : '';
-        $maxPrice = isset($_GET['price']) && is_numeric($_GET['price']) ? (float)$_GET['price'] : 0;
-        $carTypes = isset($_GET['car_type']) ? $_GET['car_type'] : [];
-        
-        // Apply filters if any
-        if ($transmission || $brand || $maxPrice || !empty($carTypes)) {
-            $filteredCars = [];
-            foreach ($cars as $car) {
-                $include = true;
-                
-                // Filter by transmission
-                if ($transmission && $car->getTransmission() !== $transmission) {
+        // Get POST data (for AJAX requests)
+        if ($isAjax) {
+            // Get JSON data from request body
+            $jsonData = file_get_contents('php://input');
+            $requestData = json_decode($jsonData, true);
+            
+            // If JSON parsing failed, try regular POST data as fallback
+            if ($requestData === null) {
+                $requestData = $_POST;
+            }
+        } else {
+            $requestData = $_POST;
+        }
+    } else {
+        // For GET requests (initial page load)
+        $requestData = $_GET;
+    }
+    
+    // Get filter parameters
+    $transmission = isset($requestData['transmission']) ? $requestData['transmission'] : '';
+    $brand = isset($requestData['brand']) ? $requestData['brand'] : '';
+    $maxPrice = isset($requestData['price']) && is_numeric($requestData['price']) ? (float)$requestData['price'] : 0;
+    $carTypes = isset($requestData['car_type']) ? $requestData['car_type'] : [];
+    
+    // Apply filters if any
+    if ($transmission || $brand || $maxPrice || !empty($carTypes)) {
+        $filteredCars = [];
+        foreach ($cars as $car) {
+            $include = true;
+            
+            // Filter by transmission
+            if ($transmission && $car->getTransmission() !== $transmission) {
+                $include = false;
+            }
+            
+            // Filter by brand
+            if ($brand && $car->getBrand() != $brand) {
+                $include = false;
+            }
+            
+            // Filter by price
+            if ($maxPrice > 0 && $car->getPricePerDay() > $maxPrice) {
+                $include = false;
+            }
+            
+            // Filter by car type
+            if (!empty($carTypes)) {
+                $carType = $car->getType();
+                if (!in_array($carType, $carTypes)) {
                     $include = false;
-                }
-                
-                // Filter by brand
-                if ($brand && $car->getBrandId() != $brand) {
-                    $include = false;
-                }
-                
-                // Filter by price
-                if ($maxPrice > 0 && $car->getPricePerDay() > $maxPrice) {
-                    $include = false;
-                }
-                
-                // Filter by car type
-                if (!empty($carTypes)) {
-                    $carType = $car->getType();
-                    if (!in_array($carType, $carTypes)) {
-                        $include = false;
-                    }
-                }
-                
-                if ($include) {
-                    $filteredCars[] = $car;
                 }
             }
-            $cars = $filteredCars;
+            
+            if ($include) {
+                $filteredCars[] = $car;
+            }
         }
+        $cars = $filteredCars;
+    }
+    
+    // Pagination
+    $page = isset($requestData['page']) ? (int)$requestData['page'] : 1;
+    $perPage = 9;
+    $total = count($cars);
+    $totalPages = max(1, ceil($total / $perPage));
+    
+    // Ensure page is within valid range
+    $page = max(1, min($page, $totalPages));
+    
+    $offset = ($page - 1) * $perPage;
+    $cars = array_slice($cars, $offset, $perPage);
+    
+    $pagination = [
+        'total' => $total,
+        'perPage' => $perPage,
+        'currentPage' => $page,
+        'totalPages' => $totalPages,
+        'hasNextPage' => $page < $totalPages,
+        'hasPrevPage' => $page > 1,
+    ];
+    
+    // Handle AJAX requests
+    if ($isAjax || (isset($requestData['ajax']) && $requestData['ajax'] === true)) {
+        // Start output buffering to capture HTML
+        ob_start();
+        require_once 'views/partial/_car_items.php';
+        $carHtml = ob_get_clean();
         
-        // Pagination
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 9;
-        $total = count($cars);
-        $totalPages = max(1, ceil($total / $perPage));
+        ob_start();
+        require_once 'views/partial/_pagination.php';
+        $paginationHtml = ob_get_clean();
         
-        // Ensure page is within valid range
-        $page = max(1, min($page, $totalPages));
-        
-        $offset = ($page - 1) * $perPage;
-        $cars = array_slice($cars, $offset, $perPage);
-        
-        $pagination = [
-            'total' => $total,
-            'perPage' => $perPage,
+        // Return JSON response
+        header('Content-Type: application/json');
+        echo json_encode([
+            'carHtml' => $carHtml,
+            'paginationHtml' => $paginationHtml,
+            'totalResults' => $total,
             'currentPage' => $page,
             'totalPages' => $totalPages,
+            'perPage' => $perPage,
             'hasNextPage' => $page < $totalPages,
-            'hasPrevPage' => $page > 1,
-        ];
-        
-        // Preserve filters in pagination links
-        $filterParams = '';
-        if ($transmission) {
-            $filterParams .= '&transmission=' . urlencode($transmission);
-        }
-        if ($brand) {
-            $filterParams .= '&brand=' . urlencode($brand);
-        }
-        if ($maxPrice) {
-            $filterParams .= '&price=' . urlencode($maxPrice);
-        }
-        if (!empty($carTypes)) {
-            foreach ($carTypes as $type) {
-                $filterParams .= '&car_type[]=' . urlencode($type);
-            }
-        }
-        
-        $pagination['filterParams'] = $filterParams;
-        
-        require_once 'views/client/carlist.php';
+            'hasPrevPage' => $page > 1
+        ]);
+        exit;
     }
+    
+    // For regular page load
+    require_once 'views/client/carlist.php';
+}
     public function searchFilter()
     {
         $_SESSION['displayForm'] = false;
