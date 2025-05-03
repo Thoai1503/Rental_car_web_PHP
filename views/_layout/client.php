@@ -142,7 +142,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <form action="checkavailability" class="trip-form"  style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
+              <form action="carlist" class="trip-form"  style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
                 <div class="row align-items-center mb-4">
                   <div class="col-md-6">
                     <h3 class="m-0">Begin your trip here</h3>

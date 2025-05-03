@@ -1,7 +1,4 @@
-<?php
-// views/client/_car_items.php
-// This partial view contains just the car cards/items
-?>
+<?php // views/client/_car_items.php // This partial view contains just the car cards/items ?>
 
 <?php if (isset($cars) && count($cars) > 0): ?>
   <?php foreach ($cars as $car): ?>
@@ -38,8 +35,14 @@
               <span class="spec fw-medium">18 years</span>
             </li>
           </ul>
-          <div class="d-grid">
-            <a href="rent?car_id=<?php echo $car->getId(); ?>" class="btn btn-primary">Rent Now</a>
+          <div class="d-flex gap-2">
+            <!-- Rent Now button -->
+            <a href="rent?car_id=<?php echo $car->getId(); ?>" class="btn btn-primary flex-grow-1">Rent Now</a>
+            
+            <!-- View Details button -->
+            <a href="car_detail?id=<?php echo $car->getId(); ?>" class="btn btn-outline-primary ml-2">
+              <i class="bi bi-info-circle"></i> View Details
+            </a>
           </div>
         </div>
       </div>
