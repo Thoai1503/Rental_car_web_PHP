@@ -66,7 +66,7 @@ class AdminController{
 }
 public function carTable()
 {
-    $cars = $this->carRepository->getAllCarsMapped();
+    $cars = $this->carRepository->getAll();
     require 'views/admin/car-list.php';
 }
 

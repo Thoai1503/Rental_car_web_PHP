@@ -24,7 +24,7 @@ class CarRepository implements BaseRepositoryInterface
       
     }
 
-    public function getAll(): array
+    public function getAllAvailableCar(): array
     {
       //  var_dump($this->pdo);die();
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE status = 'available'");
@@ -40,6 +40,25 @@ class CarRepository implements BaseRepositoryInterface
         }
         return $results;
     }
+
+    public function getAll(): array
+    {
+      //  var_dump($this->pdo);die();
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} ");
+        $stmt->execute();
+       $cars=  $stmt->fetchAll(PDO::FETCH_ASSOC);
+         $results =[];
+         foreach ($cars as $carData) {
+            $item= new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+            $item->setTypeName($this->carTypeRepository->getById($carData['type_id']));
+            $item->setBrandName($this->carBrandRepository->getById($carData['brand_id']));
+
+            $results[] = $item;
+        }
+        return $results;
+    }
+
+
 
     public function getAllCarsMapped()
     {

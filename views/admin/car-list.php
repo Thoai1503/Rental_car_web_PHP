@@ -50,49 +50,76 @@ ob_start();
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <?php
+                        <?php
                                         if (isset($cars)&& count($cars)>0){
                                             foreach($cars as $car){
                                                 ?>
-                                    <tr>
-                                        <td><img src="../uploads/<?= $car->getImage() ?>" alt="<?= $car->getName() ?>"
-                                                width="150"></td>
-                                        <td><?= $car->getName() ?></td>
-                                        <td><?= $car->getBrand() ?></td>
-                                        <td><?= $car->getType() ?></td>
-                                        <td><?= $car->getBrand() ?></td>
-                                        <td><?= $car->getSeats() ?></td>
-                                        <td><?= $car->getTransmission() ?></td>
-                                        <td>
-                                            <?php
+                        <tr>
+                            <td><img src="../uploads/<?= $car->getImage() ?>" alt="<?= $car->getName() ?>" width="90">
+                            </td>
+                            <td><?= $car->getName() ?></td>
+                            <td><?= $car->getBrandName() ?></td>
+                            <td><?= $car->getTypeName() ?></td>
+                            <td><?= $car->getSeats() ?></td>
+                            <td><?= $car->getTransmission() ?></td>
+                            <td>
+                                <?php
                                                         if($car->getStatus() == "available"){
                                                             ?>
-                                            <input type="checkbox" checked value="" data-id="<?= $car->getId() ?>"
-                                                onchange="updateStatus2(event)" />
-                                            <?php
+                                <input type="checkbox" checked value="" data-id="<?= $car->getId() ?>"
+                                    onchange="updateStatus2(event)" />
+                                <?php
                                                         }else{
                                                             ?>
-                                            <input type="checkbox" value="" data-id="<?= $car->getId() ?>"
-                                                onchange="updateStatus2(event)" />
-                                            <?php
+                                <input type="checkbox" value="" data-id="<?= $car->getId() ?>"
+                                    onchange="updateStatus2(event)" />
+                                <?php
                                                         }
                                                         ?>
 
 
-                                        </td>
-                                    </tr>
+                            </td>
+                            <td>
 
-                                    <?php
+                                <a href="admin/editcar/<?= $car->getId() ?>" class="btn btn-primary">Edit</a>
+                            </td>
+                        </tr>
+
+                        <?php
                                             }
                                         }
                                         ?>
 
-                                </tbody>
+                    </tbody>
                             </table>
                         </div>
                         </div>
                     </div>
                 </main>
+
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
                 <script>
                     function updateStatus2(event) {
     var checkbox = event.target;
@@ -136,12 +163,38 @@ ob_start();
                     })
                 })
                 .then(response => response.json())
-                .then(response => {
-                    console.log('Server Response:', response.data.carId); // Xử lý phản hồi từ server nếu cần
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                .then(text => {
+            console.log("Raw response from server:", text);
+
+            // Cố gắng loại bỏ ký tự không hợp lệ trước JSON (nếu có)
+        let jsonStr = text.trim();
+            if (!jsonStr.startsWith('{')) {
+                jsonStr = jsonStr.substring(jsonStr.indexOf('{'));
+            }
+
+            let responseData;
+            try {
+                responseData = JSON.parse(jsonStr);
+            } catch (e) {
+                throw new Error("Server returned invalid JSON: " + text);
+            }
+
+            if (responseData.success) {
+                document.querySelector('.modal-body').innerHTML =
+                    "Car with ID <strong>" + responseData.data.carId + "</strong> was changed to <strong>" + responseData.data.status + "</strong> successfully.";
+            } else {
+                document.querySelector('.modal-body').innerHTML =
+                    "Failed to update car status: " + (responseData.message || "Unknown error");
+                checkbox.checked = !checkbox.checked; // Revert
+            }
+
+            bootstrapModal.show();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Something went wrong: " + error.message);
+            checkbox.checked = !checkbox.checked;
+        });
 }
 
                 </script>
