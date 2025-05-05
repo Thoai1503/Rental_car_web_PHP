@@ -48,7 +48,7 @@ if($requestUri === '/index' || $requestUri === '/') {
 
 elseif(str_contains($requestUri,'cars-edit')) {
   $id=(int)explode('/', $requestUri)[3];
-    $carController = new CarController(new CarRepository($pdo));
+    $carController = new CarController($pdo);
     $carController->edit($id);
 
 

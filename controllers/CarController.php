@@ -75,7 +75,7 @@ class CarController
                     echo 'File size exceeds the limit.';
                     return;
                 }
-                if ($car->getImage() != '' && strlen($car->getImage()) > 20) {
+                if ($car->getImage() != '' && strlen($car->getImage()) > 10) {
                     //`   var_dump("uploads/".$car['image']);die();
                     unlink('uploads/' . $car->getImage());
 
@@ -100,7 +100,7 @@ class CarController
                     header('Location: ../index');
                  //   var_dump('./uploads/' . $car['image']);
                   //  die();
-                }
+                }else{
                 // echo "Out";die();
                 $filename = $_FILES['image']['name'];
                 $image = randomString(8) . $filename;
@@ -122,6 +122,7 @@ class CarController
                 move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
                 $this->carRepository->update($data);
                 header('Location: ../index');
+            }
             } else {
 
                 $data = [

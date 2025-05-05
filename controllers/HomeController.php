@@ -369,9 +369,9 @@ public function showPaymentForm() {
 // }
     public function carDetails()
     {
-        $_SESSION['displayForm'] = false;
-        // $id = (int)$_GET['id'];
-        // $car = $this->carRepository->getById($id);
+            $_SESSION['displayForm'] = false;
+       $id = (int)$_GET['id'];
+        $car = $this->carRepository->getById($id);
         // dd($car);die();
         // $carTypes = $this->carTypeRepository->getAll();
         // $carBrands = $this->carBrandRepository->getAll();

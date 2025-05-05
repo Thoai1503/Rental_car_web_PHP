@@ -40,7 +40,7 @@
             <a href="rent?car_id=<?php echo $car->getId(); ?>" class="btn btn-primary flex-grow-1">Rent Now</a>
             
             <!-- View Details button -->
-            <a href="car_detail?id=<?php echo $car->getId(); ?>" class="btn btn-outline-primary ml-2">
+            <a href="cardetails?id=<?php echo $car->getId(); ?>" class="btn btn-outline-primary ml-2">
               <i class="bi bi-info-circle"></i> View Details
             </a>
           </div>
