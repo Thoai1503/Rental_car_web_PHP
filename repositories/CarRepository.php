@@ -75,8 +75,8 @@ class CarRepository implements BaseRepositoryInterface
     {
         $car= new Car(0,$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $data['image'],"available");
         
-        $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name,brand,type,fuel_type,seats,transmission, price_per_day, image) VALUES (?, ?, ?,?, ?, ?, ?, ?)");
-        return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(), $car->getImage()]);
+        $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name,brand_id,type_id,fuel_type,seats,transmission, price_per_day, image) VALUES (?, ?, ?,?, ?, ?, ?, ?)");
+        return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), 'automatic', $car->getPricePerDay(), $car->getImage()]);
     }
 
     public function update($data)
@@ -91,7 +91,7 @@ class CarRepository implements BaseRepositoryInterface
         }
         else{
             $car= new Car( $data['id'],$data['name'],$data['brand'],$data['type'],$data['fuel_type'],$data['seats'],$data['transmission'], $data['price_per_day'], $image="",$status="available");
-            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand =?,type=?,fuel_type=?,seats=?,transmission =?, price_per_day = ? WHERE id = ?");
+            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET name = ?,brand_id =?,type_id=?,fuel_type=?,seats=?,transmission =?, price_per_day = ? WHERE id = ?");
             return $stmt->execute([$car->getName(), $car->getBrand(), $car->getType(), $car->getFuelType(), $car->getSeats(), $car->getTransmission(), $car->getPricePerDay(),$car->getId()]);
         }
     }
@@ -110,6 +110,8 @@ class CarRepository implements BaseRepositoryInterface
             $carData = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($carData) {
                 $car= new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+                $car->setTypeName($this->carTypeRepository->getById($carData['type_id']));
+                $car->setBrandName($this->carBrandRepository->getById($carData['brand_id']));
                 return $car;
             }
         }catch(Exception $e){
@@ -125,6 +127,7 @@ class CarRepository implements BaseRepositoryInterface
 
     public function search($keyword)
     {
+        
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE name LIKE ?");
         $stmt->execute(["%$keyword%"]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

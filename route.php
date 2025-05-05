@@ -13,7 +13,10 @@ $pdo = require_once 'config/database.php';
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestUri = str_replace('/car_rent', '', $requestUri);
 
-
+if($requestUri==='/hi'){
+  //var_dump($requestUri);die();
+    require_once 'views/admin/index.php';
+}
 //route for client
 if($requestUri === '/index' || $requestUri === '/') {
 
@@ -72,7 +75,7 @@ elseif(str_contains($requestUri,'cars-edit')) {
 
   }
 
-elseif($requestUri === '/admin'){
+elseif($requestUri === '/admin' || $requestUri === '/admin/index'){
  // var_dump($requestUri);die();
   $adminController = new AdminController($pdo);
   $adminController->index();
@@ -81,9 +84,9 @@ elseif($requestUri === '/admin'){
 }
 elseif(str_contains($requestUri,'admin/editcar')) {
   $id=(int)explode('/', $requestUri)[3];
-  $carController = new CarController(new CarRepository($pdo));
-  $carController->show($id);
 
+  $adminController = new AdminController($pdo);
+  $adminController->show($id);
 }
 
 elseif($requestUri === '/admin/addcar'){
@@ -107,16 +110,11 @@ elseif($requestUri === '/admin/cars-add'){
 
 }
 
- elseif($requestUri === '/admin/cars-list') {
-  $adminController = new AdminController($pdo);
-  $adminController->carTable();
 
-
-} 
 
 
 elseif($requestUri === '/admin/updateCarStatus') {
-  $carController = new CarController(new CarRepository($pdo));
+  $carController = new CarController($pdo);
   $carController->updateStatusViaAjax();
 }
 

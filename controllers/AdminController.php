@@ -74,6 +74,13 @@ public function carTypeTable()
 {
     require 'views/admin/car-type-list.php';
 }
+public function show($id)
+{
+    $carTypes = $this->carTypeRepository->getAll();
+    $carBrands = $this->carBrandRepository->getAll();
+    $car = $this->carRepository->getById($id);
+    require 'views/admin/edit-car.php';
+}
 }
 ?>
 

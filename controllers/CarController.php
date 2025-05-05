@@ -1,12 +1,16 @@
 <?php
+require_once 'repositories/CarRepository.php';
 class CarController
+
 {
+    private $pdo;
     private $carRepository;
 
-    public function __construct($carRepository)
+    public function __construct($pdo)
     {
         require_once 'helpers/function.php';
-        $this->carRepository = $carRepository;
+        $this->pdo = $pdo;
+        $this->carRepository = new CarRepository($this->pdo);
     }
     public function index()
     {
@@ -28,20 +32,23 @@ class CarController
             $transmission = $_POST['transmission'];
 
             $price_per_day = $_POST['price_per_day'];
+         
+            $image = randomString(8) . basename($_FILES['image']['name']);
+
+            $target_dir = 'uploads/';
+            $target_file = $target_dir . $image;
+            move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
             $data = [
                 'name' => $name,
                 'brand' => $brand,
                 'type' => $type,
                 'fuel_type' => $fuel_type,
                 'seats' => $seats,
+                'price_per_day' => $price_per_day,
+                'image' => $image,
                 'transmission' => $transmission] ;
-            $image = randomString(8) . basename($_FILES['image']['name']);
-
-            $target_dir = 'uploads/';
-            $target_file = $target_dir . $$image;
-            move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
-            $this->carRepository->create($name, $brand, $type, $fuel_type, $seats, $transmission, $price_per_day, $image);
-            header('Location: /cars');
+            $this->carRepository->create($data);
+            header('Location: ../index');
         } else {
             require 'views/admin/add-car.php';
         }
@@ -70,17 +77,29 @@ class CarController
                 }
                 if ($car->getImage() != '' && strlen($car->getImage()) > 20) {
                     //`   var_dump("uploads/".$car['image']);die();
-                    unlink('uploads/' . $car['image']);
+                    unlink('uploads/' . $car->getImage());
 
                     $filename = $_FILES['image']['name'];
                     $image = randomString(8) . $filename;
                     $target_dir = 'uploads/';
                     $target_file = $target_dir . $image;
                     move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
-                    $this->carRepository->updateCar($id, $_POST['name'], $_POST['brand'], $_POST['type'], $_POST['fuel_type'], $_POST['seats'], $_POST['transmission'], $_POST['price_per_day'], $image);
-                    header('Location: ../');
-                    var_dump('./uploads/' . $car['image']);
-                    die();
+                    $data = [
+                        'id' => $id,
+                        'name' => $_POST['name'],
+                        'brand' => $_POST['brand'],
+                        'type' => $_POST['type'],
+                        'fuel_type' => $_POST['fuel_type'],
+                        'seats' => $_POST['seats'],
+                        'transmission' => $_POST['transmission'],
+                        'price_per_day' => $_POST['price_per_day'],
+                        'image' => $image,
+                    ];
+    
+                    $this->carRepository->update($data);
+                    header('Location: ../index');
+                 //   var_dump('./uploads/' . $car['image']);
+                  //  die();
                 }
                 // echo "Out";die();
                 $filename = $_FILES['image']['name'];
@@ -102,7 +121,7 @@ class CarController
 
                 move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
                 $this->carRepository->update($data);
-                header('Location: ../');
+                header('Location: ../index');
             } else {
 
                 $data = [
@@ -118,7 +137,7 @@ class CarController
                     'status' => 'available',
                 ];
                 $this->carRepository->update($data);
-                header('Location: ../');
+                header('Location: ../index');
             }
             // header('Location: /cars');
         } else {
@@ -127,7 +146,7 @@ class CarController
     }
     public function delete($id)
     {
-        $this->carRepository->deleteCar($id);
+        $this->carRepository->delete($id);
         header('Location: ../car_rent');
     }
     public function search()

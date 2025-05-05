@@ -219,7 +219,7 @@ function loadCars(page = 1) {
     document.getElementById('car-listings').classList.remove('opacity-50');
     
     // Scroll to top of listings if changing pages
-    if (page > 1) {
+    if (page >= 1) {
       document.querySelector('.col-lg-9').scrollIntoView({ behavior: 'smooth' });
     }
   })

@@ -21,7 +21,7 @@ class HomeController
         $this->carRepository = new CarRepository($this->pdo);
         $this->carTypeRepository = new CarTypeRepository($this->pdo);
         $this->carBrandRepository = new CarBrandRepository($this->pdo);
-        $list = $this->carRepository->getAll();
+        $list = $this->carRepository->getAllAvailableCar();
         foreach ($list as $car) {
             $this->carList[$car->getId()] = $car;
         }

@@ -7,18 +7,48 @@
         <div class="card shadow p-4">
             <form action="../cars-edit/<?= $car->getId() ?>" method="POST" enctype="multipart/form-data">
                 <div class="row g-3">
+                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="name" name="name" value="<?= $car->getName() ?>" placeholder="Tên xe" required>
+                                        <label for="name"><i class="fas fa-car me-2"></i>Tên xe</label>
+                                    </div>
+                                </div>
                     <div class="col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<?= $car->getName() ?>" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="brand" class="form-label">Brand</label>
-                        <input type="text" class="form-control" id="brand" name="brand" value="<?= $car->getBrand() ?>" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="type" class="form-label">Type</label>
-                        <input type="text" class="form-control" id="type" name="type" value="<?= $car->getType() ?>" required>
-                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="brand" name="brand" required>
+                                            <option value="<?=$car->getBrand()?>" selected ><?=$car->getBrandName()?></option>
+                                            <?php
+                                            if (isset($carBrands) && count($carBrands) > 0) {
+                                                foreach ($carBrands as $brand) {
+                                            ?>
+                                                <option value="<?= $brand->getId() ?>"><?= $brand->getName() ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>   
+                                           
+                                        </select>
+                                        <label for="brand"><i class="fas fa-building me-2"></i>Hãng xe</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="type" name="type" required>
+                                            <option value="<?=$car->getType()?>" selected><?=$car->getTypeName()?></option>
+                                            <?php
+                                            if (isset($carTypes) && count($carTypes) > 0) {
+                                                foreach ($carTypes as $type) {
+                                            ?>
+                                                <option value="<?= $type->getId() ?>"><?= $type->getName() ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                       
+                                        </select>
+                                        <label for="type"><i class="fas fa-tags me-2"></i>Loại xe</label>
+                                    </div>
+                                </div>
                     <div class="col-md-6">
                         <label for="fuel_type" class="form-label">Fuel Type</label>
                         <input type="text" class="form-control" id="fuel_type" name="fuel_type" value="<?= $car->getFuelType() ?>" required>
