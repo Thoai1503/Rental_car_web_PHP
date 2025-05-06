@@ -1,4 +1,5 @@
 <?php
+require_once 'models/User.php';
 class AccountDAO
 {
     private static $instance = null;
@@ -25,7 +26,7 @@ class AccountDAO
        // $stmt->fetch(PDO::FETCH_ASSOC);
       $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
-            return new User($user['id'], $user['name'], $user['email'], $user['auth_id']);
+            return new User($user['id'], $user['name'], $user['email'], $user['id_auth']);
         } else {
             return null;
         }

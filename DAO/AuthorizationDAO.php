@@ -10,6 +10,7 @@
         $this->pdo = $pdo;
     }
 
+    
     public static function getInstance($pdo)
     {
         if (self::$instance === null) {

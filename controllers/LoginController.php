@@ -1,5 +1,5 @@
 <?php
-  require_once 'repositories/AccountDAO.php';
+  require_once 'DAO/AccountDAO.php';
 class LoginController
 {
     private $accountDAO;
@@ -21,7 +21,7 @@ class LoginController
 
             // Check if the user exists in the database
             $user = AccountDAO::getInstance($this->pdo)->getUser($email, $password);
-
+   
             if ($user) {
                 // Store user information in session
                 $_SESSION['user'] = [
@@ -30,8 +30,19 @@ class LoginController
                     'email' => $user->getEmail(),
                     'auth_id' => $user->getAuthId(),
                 ];
-                header('Location: /index.php');
-                exit();
+                switch ($user->getAuthId()) {
+                    case 1:
+                        header('Location: admin');
+                        exit;
+                    case 2:
+                        header('Location: /car_rent/index');
+                        exit;
+                    default:
+                        echo "Unauthorized access.";
+                        exit();
+                }
+                // header('Location: /car_rent/index');
+                // exit();
             } else {
                 echo "Invalid email or password.";
             }   

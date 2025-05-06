@@ -5,6 +5,7 @@ require_once 'controllers/AdminController.php';
 require_once 'repositories/CarTypeRepository.php';
 require_once 'repositories/CarBrandRepository.php';
 require_once 'controllers/HomeController.php';
+require_once 'controllers/LoginController.php';
 
 
 
@@ -16,6 +17,37 @@ $requestUri = str_replace('/car_rent', '', $requestUri);
 if($requestUri==='/hi'){
   //var_dump($requestUri);die();
     require_once 'views/admin/index.php';
+}
+elseif($requestUri === '/login') {
+  require_once 'views/login.php';
+ } elseif ($requestUri === '/checklogin') {
+   $loginController = new LoginController($pdo);
+   $loginController->login();
+
+  
+
+}
+ elseif($requestUri === '/register') {
+  require_once 'views/register.php';
+} elseif($requestUri === '/logout') {
+  session_start();
+  session_destroy();
+  header('Location: /car_rent/login');
+  exit;
+} elseif($requestUri === '/login/submit') {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $middlewareRepository = new MiddlewareRepository($pdo);
+  $user = $middlewareRepository->checkLogin($email, $password);
+  
+  if ($user) {
+      session_start();
+      $_SESSION['user'] = $user;
+      header('Location: /car_rent/index');
+      exit;
+  } else {
+      echo "Invalid email or password.";
+  }
 }
 //route for client
 if($requestUri === '/index' || $requestUri === '/') {
