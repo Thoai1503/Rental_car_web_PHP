@@ -223,15 +223,15 @@ form .btn input[type="submit"]{
             </div>
             <div class="signup-link">Not a member? <a href="">Signup now</a></div>
           </form>
-          <form action="#" class="signup">
+          <form action="register" class="signup" method="post">
             <div class="field">
-              <input type="text" placeholder="Email Address" required>
+              <input type="text" placeholder="Email Address" name="email" required>
             </div>
             <div class="field">
-              <input type="password" placeholder="Password" required>
+              <input type="password" placeholder="Password" name="password" required>
             </div>
             <div class="field">
-              <input type="password" placeholder="Confirm password" required>
+              <input type="password" placeholder="Confirm password" name="confirm_password" required>
             </div>
             <div class="field btn">
               <div class="btn-layer"></div>

@@ -1,5 +1,8 @@
 
 <?php
+require_once 'models/Authorization.php';
+require_once 'DAO/AccountDAO.php';
+require_once 'DAO/AuthorizationDAO.php';
  class AuthorizationDAO
 {
     private static $instance = null;
@@ -21,13 +24,25 @@
 
 public function getAuthorization($auth_id,$url)
 {
-    $stmt = $this->pdo->prepare("SELECT * FROM authorization WHERE auth_id = :auth_id AND url = :url");
+    $stmt = $this->pdo->prepare("SELECT * FROM authorization WHERE id_authen = :auth_id");
     $stmt->bindParam(':auth_id', $auth_id);
-    $stmt->bindParam(':url', $url);
+   
     $stmt->execute();
  
-   return $authorization = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+    $authorization = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $results =[];
+    foreach ($authorization as $authData) {
+        $item= new Authorization($authData['id_authen'], $authData['url'], $authData['title']);
+        $results[] = $item;
+    }
+   $re= array_find($results, function($item) use ($url) {
+        return str_contains($url, $item->getUrl());
+    });
+    if($re){
+        return true;
+    }else{
+        return false;
+    }
 }
 }
 ?>

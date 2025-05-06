@@ -35,10 +35,10 @@ class LoginController
                         header('Location: admin');
                         exit;
                     case 2:
-                        header('Location: /car_rent/index');
+                        header('Location: index');
                         exit;
                     default:
-                        echo "Unauthorized access.";
+                    header('Location: index');
                         exit();
                 }
                 // header('Location: /car_rent/index');
