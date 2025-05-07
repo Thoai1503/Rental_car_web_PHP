@@ -197,10 +197,15 @@ form .btn input[type="submit"]{
 <body>
 <div class="wrapper">
       <div class="title-text">
+       
         <div class="title login">Login Form</div>
         <div class="title signup">Signup Form</div>
       </div>
       <div class="form-container">
+        <br>
+      <span style="color:red"><strong>Tài khoản đăng nhập demo:</strong> </span>
+      <p><strong>Admin:</strong> admin@example.com - password: 123456 </p>
+      <p><strong>User:</strong> vothoai1503@gmail.com - password: 123456 </p>
         <div class="slide-controls">
           <input type="radio" name="slide" id="login" checked>
           <input type="radio" name="slide" id="signup">
@@ -208,6 +213,7 @@ form .btn input[type="submit"]{
           <label for="signup" class="slide signup">Signup</label>
           <div class="slider-tab"></div>
         </div>
+        
         <div class="form-inner">
           <form action="checklogin" class="login" method="post">
             <div class="field">
@@ -224,7 +230,10 @@ form .btn input[type="submit"]{
             <div class="signup-link">Not a member? <a href="">Signup now</a></div>
           </form>
           <form action="register" class="signup" method="post">
-            <div class="field">
+          <div class="field">
+              <input type="text" placeholder="Name" name="name" required>
+            </div> 
+          <div class="field">
               <input type="text" placeholder="Email Address" name="email" required>
             </div>
             <div class="field">

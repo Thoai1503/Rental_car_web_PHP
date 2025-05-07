@@ -86,6 +86,13 @@
                   <li><a href="about.html" class="nav-link">About</a></li>
                   <li><a href="blog.html" class="nav-link">Blog</a></li>
                   <li><a href="contact.html" class="nav-link">Contact</a></li>
+                  <?php
+                  if (isset($_SESSION['user'])) {
+                    echo '<li><a href="logout" class="nav-link">Logout</a></li>';
+                  } else {
+                    echo '<li><a href="login" class="nav-link">Login</a></li>';
+                  }
+                  ?>
                 </ul>
               </nav>
             </div>

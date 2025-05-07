@@ -32,5 +32,20 @@ class AccountDAO
         }
 
     }
+    public function createUser($email, $password, $name)
+    {
+ 
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO users (email, password, name,id_auth) VALUES (:email, :password, :name,2)");
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':name', $name);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            // Handle the exception (e.g., log it, display an error message, etc.)
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>

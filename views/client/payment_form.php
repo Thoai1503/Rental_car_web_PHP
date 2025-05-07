@@ -7,275 +7,321 @@ ob_start();
 ?>
 
 <div class="container py-5">
-  <div class="row">
-    <!-- Car Summary Card -->
-    <div class="col-lg-4 mb-4 mb-lg-0">
-      <div class="card shadow-sm border-0 rounded-3 h-100">
-        <div class="card-header bg-primary bg-opacity-10 border-0">
-          <h5 class="mb-0 text-primary fw-bold">Rental Summary</h5>
-        </div>
-        
-        <!-- Car Image -->
-        <img src="http://localhost/car_rent/uploads/<?php echo $car->getImage(); ?>" 
-             class="card-img-top p-3" 
-             style="height: 200px; object-fit: contain;" 
-             alt="<?php echo htmlspecialchars($car->getName()); ?>">
-        
-        <div class="card-body">
-          <!-- Car Details -->
-          <h4 class="card-title fw-bold"><?php echo htmlspecialchars($car->getName()); ?></h4>
-          
-          <div class="d-flex align-items-center mb-3">
-            <div class="rating me-2">
-              <?php for ($s = 0; $s < 5; $s++): ?>
-                <span class="icon-star text-warning">★</span>
-              <?php endfor; ?>
-            </div>
-            <span class="text-muted small">(<?php echo mt_rand(10, 50); ?> reviews)</span>
+  <form id="payment-form" method="post" action="/car_rent/submitpayment">
+    <div class="row">
+      <!-- Car Summary Card -->
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="card shadow-sm border-0 rounded-3 h-100">
+          <div class="card-header bg-primary bg-opacity-10 border-0">
+            <h5 class="mb-0 text-primary fw-bold">Rental Summary</h5>
           </div>
           
-          <!-- Car Specifications -->
-          <ul class="list-group list-group-flush mb-4">
-            <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-              <span class="text-muted">Transmission</span>
-              <span class="fw-medium"><?php echo ucfirst(htmlspecialchars($car->getTransmission())); ?></span>
-            </li>
-            <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-              <span class="text-muted">Seats</span>
-              <span class="fw-medium">5</span>
-            </li>
-            <li class="list-group-item px-0 py-2 d-flex justify-content-between">
-              <span class="text-muted">Doors</span>
-              <span class="fw-medium">4</span>
-            </li>
-          </ul>
+          <!-- Car Image -->
+          <img src="http://localhost/car_rent/uploads/<?php echo $car->getImage(); ?>" 
+               class="card-img-top p-3" 
+               style="height: 200px; object-fit: contain;" 
+               alt="<?php echo htmlspecialchars($car->getName()); ?>">
           
-          <!-- Rental Details -->
-          <h6 class="fw-bold mb-3">Rental Period</h6>
-          <div class="bg-light p-3 rounded-3 mb-4">
-            <div class="row mb-2">
-              <div class="col-5 text-muted">Pick-up:</div>
-              <div class="col-7 fw-medium"><?php echo isset($rental_details['pickup_date']) ? htmlspecialchars($rental_details['pickup_date']) : date('M d, Y'); ?></div>
+          <div class="card-body">
+            <!-- Car Details -->
+            <h4 class="card-title fw-bold"><?php echo htmlspecialchars($car->getName()); ?></h4>
+            
+            <div class="d-flex align-items-center mb-3">
+              <div class="rating me-2">
+                <?php for ($s = 0; $s < 5; $s++): ?>
+                  <span class="icon-star text-warning">★</span>
+                <?php endfor; ?>
+              </div>
+              <span class="text-muted small">(<?php echo mt_rand(10, 50); ?> reviews)</span>
             </div>
-            <div class="row mb-2">
-              <div class="col-5 text-muted">Return:</div>
-              <div class="col-7 fw-medium"><?php echo isset($rental_details['return_date']) ? htmlspecialchars($rental_details['return_date']) : date('M d, Y', strtotime('+3 days')); ?></div>
+            
+            <!-- Car Specifications -->
+            <ul class="list-group list-group-flush mb-4">
+              <li class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">Transmission</span>
+                <span class="fw-medium"><?php echo ucfirst(htmlspecialchars($car->getTransmission())); ?></span>
+              </li>
+              <li class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">Seats</span>
+                <span class="fw-medium">5</span>
+              </li>
+              <li class="list-group-item px-0 py-2 d-flex justify-content-between">
+                <span class="text-muted">Doors</span>
+                <span class="fw-medium">4</span>
+              </li>
+            </ul>
+            
+            <!-- Rental Details -->
+            <h6 class="fw-bold mb-3">Rental Period</h6>
+            
+  			
+  			    			
+  			    					<div class="form-group">
+  			                <label for="" class="label">Pick-up date</label>
+  			                <input type="date" class="form-control" id="book_pick_date" placeholder="Date" name="pickup_date" >
+  			              </div>
+  			            
+  		            
+  		              <div class="form-group">
+  		                <label for="" class="label">Drop-off date</label>
+  		                <input type="date" class="form-control" id="time_pick" placeholder="Time" name="dropoff_date" >
+  		              </div>
+                    <div class="bg-light p-3 rounded-3 mb-4">
+              <div class="row mb-2">
+                <div class="col-5 text-muted">Pick-up:</div>
+                <div class="col-7 fw-medium"><?php echo isset($rental_details['pickup_date']) ? htmlspecialchars($rental_details['pickup_date']) : date('M d, Y'); ?></div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-5 text-muted">Return:</div>
+                <div class="col-7 fw-medium"><?php echo isset($rental_details['return_date']) ? htmlspecialchars($rental_details['return_date']) : date('M d, Y', strtotime('+3 days')); ?></div>
+              </div>
+              <div class="row">
+                <div class="col-5 text-muted">Duration:</div>
+                <div class="col-7 fw-medium"><?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days</div>
+              </div>
             </div>
-            <div class="row">
-              <div class="col-5 text-muted">Duration:</div>
-              <div class="col-7 fw-medium"><?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days</div>
+            
+            <!-- Price Breakdown -->
+            <h6 class="fw-bold mb-3">Price Details</h6>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Daily Rate:</span>
+              <span class="fw-medium">$<?php echo number_format($car->getPricePerDay(), 2); ?></span>
             </div>
-          </div>
-          
-          <!-- Price Breakdown -->
-          <h6 class="fw-bold mb-3">Price Details</h6>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Daily Rate:</span>
-            <span class="fw-medium">$<?php echo number_format($car->getPricePerDay(), 2); ?></span>
-          </div>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Rental Period (<?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days):</span>
-            <span class="fw-medium">$<?php echo number_format($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3), 2); ?></span>
-          </div>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Insurance:</span>
-            <span class="fw-medium">$<?php echo number_format((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25, 2); ?></span>
-          </div>
-          <div class="mb-2 d-flex justify-content-between">
-            <span>Tax (10%):</span>
-            <span class="fw-medium">$<?php 
-              $subtotal = ($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3)) + ((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25);
-              echo number_format($subtotal * 0.1, 2); 
-            ?></span>
-          </div>
-          <hr>
-          <div class="d-flex justify-content-between fw-bold">
-            <span>Total:</span>
-            <span class="text-primary fs-5">$<?php 
-              $total = $subtotal + ($subtotal * 0.1);
-              echo number_format($total, 2); 
-            ?></span>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Rental Period (<?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days):</span>
+              <span class="fw-medium">$<?php echo number_format($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3), 2); ?></span>
+            </div>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Insurance:</span>
+              <span class="fw-medium">$<?php echo number_format((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25, 2); ?></span>
+            </div>
+            <div class="mb-2 d-flex justify-content-between">
+              <span>Tax (10%):</span>
+              <span class="fw-medium">$<?php 
+                $subtotal = ($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3)) + ((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25);
+                echo number_format($subtotal * 0.1, 2); 
+              ?></span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between fw-bold">
+              <span>Total:</span>
+              <span class="text-primary fs-5">$<?php 
+                $total = $subtotal + ($subtotal * 0.1);
+                echo number_format($total, 2); 
+              ?></span>
+              <input type="hidden" name="total_price" value="<?php echo $total; ?>">
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Payment Form -->
-    <div class="col-lg-8">
-      <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-header bg-primary bg-opacity-10 border-0">
-          <h5 class="mb-0 text-primary fw-bold">Payment Information</h5>
-        </div>
-        <div class="card-body p-4">
-          <form id="payment-form" method="post" action="process_payment">
-            <input type="hidden" name="car_id" value="<?php echo $car->getId(); ?>">
-            <input type="hidden" name="total_amount" value="<?php echo $total; ?>">
-            
-            <!-- Customer Information -->
-            <h6 class="fw-bold mb-3">Customer Information</h6>
-            <div class="row mb-4">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <label for="first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first_name" name="first_name" required>
+      
+      <!-- Payment Form -->
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0 rounded-3">
+          <div class="card-header bg-primary bg-opacity-10 border-0">
+            <h5 class="mb-0 text-primary fw-bold">Payment Information</h5>
+          </div>
+          <div class="card-body p-4">
+            <!-- <form id="payment-form" method="post" action="process_payment"> -->
+              <input type="hidden" name="car_id" value="<?php echo $car->getId(); ?>">
+              <!-- <input type="hidden" name="total_amount" value="<?php echo $total; ?>"> -->
+              
+              <!-- Customer Information -->
+              <h6 class="fw-bold mb-3">Customer Information</h6>
+              <?php
+              if (isset($_SESSION['user'])) {
+              
+              ?>
+                   <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="first_name" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="first_name" name="first_name" value="<?=$_SESSION['user']['name']?>" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="last_name" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" value="<?=$_SESSION['user']['name']?>" required>
+                </div>
               </div>
-              <div class="col-md-6">
-                <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" required>
+              
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" value="<?=$_SESSION['user']['email']?>" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
               </div>
-            </div>
-            
-            <div class="row mb-4">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+              <?php } else{ ?>
+             
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="first_name" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="last_name" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
               </div>
-              <div class="col-md-6">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
+              
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
               </div>
-            </div>
-            
-            <div class="mb-4">
-              <label for="address" class="form-label">Street Address</label>
-              <input type="text" class="form-control" id="address" name="address" required>
-            </div>
-            
-            <div class="row mb-4">
-              <div class="col-md-5 mb-3 mb-md-0">
-                <label for="city" class="form-label">City</label>
-                <input type="text" class="form-control" id="city" name="city" required>
+              <?php
+              }
+              ?>
+              
+              <div class="mb-4">
+                <label for="address" class="form-label">Street Address</label>
+                <input type="text" class="form-control" id="address" name="address" required>
               </div>
-              <div class="col-md-4 mb-3 mb-md-0">
-                <label for="state" class="form-label">State/Province</label>
-                <input type="text" class="form-control" id="state" name="state" required>
+              
+              <div class="row mb-4">
+                <div class="col-md-5 mb-3 mb-md-0">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <label for="state" class="form-label">State/Province</label>
+                  <input type="text" class="form-control" id="state" name="state" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="zip" class="form-label">Zip/Postal Code</label>
+                  <input type="text" class="form-control" id="zip" name="zip" required>
+                </div>
               </div>
-              <div class="col-md-3">
-                <label for="zip" class="form-label">Zip/Postal Code</label>
-                <input type="text" class="form-control" id="zip" name="zip" required>
+              
+              <hr class="my-4">
+              
+              <!-- Driver Information -->
+              <h6 class="fw-bold mb-3">Driver Information</h6>
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="license_number" class="form-label">Driver's License Number</label>
+                  <input type="text" class="form-control" id="license_number" name="license_number" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="license_expiry" class="form-label">License Expiry Date</label>
+                  <input type="date" class="form-control" id="license_expiry" name="license_expiry" required>
+                </div>
               </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <!-- Driver Information -->
-            <h6 class="fw-bold mb-3">Driver Information</h6>
-            <div class="row mb-4">
-              <div class="col-md-6 mb-3 mb-md-0">
-                <label for="license_number" class="form-label">Driver's License Number</label>
-                <input type="text" class="form-control" id="license_number" name="license_number" required>
+              
+              <div class="mb-4">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" required>
               </div>
-              <div class="col-md-6">
-                <label for="license_expiry" class="form-label">License Expiry Date</label>
-                <input type="date" class="form-control" id="license_expiry" name="license_expiry" required>
+              
+              <hr class="my-4">
+              
+              <!-- Payment Method -->
+              <h6 class="fw-bold mb-3">Payment Method</h6>
+              <div class="mb-4">
+                <div class="d-flex gap-3 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" id="credit_card" value="credit_card" checked>
+                    <label class="form-check-label" for="credit_card">
+                      Credit Card
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal">
+                    <label class="form-check-label" for="paypal">
+                      PayPal
+                    </label>
+                  </div>
+                </div>
+                
+                <!-- Credit Card Details (shown by default) -->
+                <div id="credit-card-details">
+                  <div class="mb-3">
+                    <label for="card_number" class="form-label">Card Number</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
+                      <span class="input-group-text">
+                        <i class="bi bi-credit-card"></i>
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label for="expiry_date" class="form-label">Expiry Date</label>
+                      <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="cvv" class="form-label">CVV</label>
+                      <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123">
+                    </div>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="card_name" class="form-label">Name on Card</label>
+                    <input type="text" class="form-control" id="card_name" name="card_name">
+                  </div>
+                </div>
+                
+                <!-- PayPal Instructions (hidden by default) -->
+                <div id="paypal-details" class="d-none">
+                  <div class="alert alert-info">
+                    <p class="mb-0">You will be redirected to PayPal to complete your payment after submitting this form.</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            
-            <div class="mb-4">
-              <label for="dob" class="form-label">Date of Birth</label>
-              <input type="date" class="form-control" id="dob" name="dob" required>
-            </div>
-            
-            <hr class="my-4">
-            
-            <!-- Payment Method -->
-            <h6 class="fw-bold mb-3">Payment Method</h6>
-            <div class="mb-4">
-              <div class="d-flex gap-3 mb-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="payment_method" id="credit_card" value="credit_card" checked>
-                  <label class="form-check-label" for="credit_card">
-                    Credit Card
+              
+              <hr class="my-4">
+              
+              <!-- Additional Options -->
+              <h6 class="fw-bold mb-3">Additional Options</h6>
+              <div class="mb-4">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="additional_driver" name="additional_driver" value="1">
+                  <label class="form-check-label" for="additional_driver">
+                    Add additional driver (+$10/day)
+                  </label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="gps" name="gps" value="1">
+                  <label class="form-check-label" for="gps">
+                    GPS Navigation System (+$5/day)
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal">
-                  <label class="form-check-label" for="paypal">
-                    PayPal
+                  <input class="form-check-input" type="checkbox" id="child_seat" name="child_seat" value="1">
+                  <label class="form-check-label" for="child_seat">
+                    Child Safety Seat (+$7/day)
                   </label>
                 </div>
               </div>
               
-              <!-- Credit Card Details (shown by default) -->
-              <div id="credit-card-details">
-                <div class="mb-3">
-                  <label for="card_number" class="form-label">Card Number</label>
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
-                    <span class="input-group-text">
-                      <i class="bi bi-credit-card"></i>
-                    </span>
-                  </div>
-                </div>
-                
-                <div class="row mb-4">
-                  <div class="col-md-6 mb-3 mb-md-0">
-                    <label for="expiry_date" class="form-label">Expiry Date</label>
-                    <input type="text" class="form-control" id="expiry_date" name="expiry_date" placeholder="MM/YY">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123">
-                  </div>
-                </div>
-                
-                <div class="mb-4">
-                  <label for="card_name" class="form-label">Name on Card</label>
-                  <input type="text" class="form-control" id="card_name" name="card_name">
+              <!-- Terms and Conditions -->
+              <div class="mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                  <label class="form-check-label" for="terms">
+                    I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                  </label>
                 </div>
               </div>
               
-              <!-- PayPal Instructions (hidden by default) -->
-              <div id="paypal-details" class="d-none">
-                <div class="alert alert-info">
-                  <p class="mb-0">You will be redirected to PayPal to complete your payment after submitting this form.</p>
-                </div>
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Complete Payment</button>
               </div>
-            </div>
-            
-            <hr class="my-4">
-            
-            <!-- Additional Options -->
-            <h6 class="fw-bold mb-3">Additional Options</h6>
-            <div class="mb-4">
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="additional_driver" name="additional_driver" value="1">
-                <label class="form-check-label" for="additional_driver">
-                  Add additional driver (+$10/day)
-                </label>
-              </div>
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="gps" name="gps" value="1">
-                <label class="form-check-label" for="gps">
-                  GPS Navigation System (+$5/day)
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="child_seat" name="child_seat" value="1">
-                <label class="form-check-label" for="child_seat">
-                  Child Safety Seat (+$7/day)
-                </label>
-              </div>
-            </div>
-            
-            <!-- Terms and Conditions -->
-            <div class="mb-4">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
-                <label class="form-check-label" for="terms">
-                  I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
-                </label>
-              </div>
-            </div>
-            
-            <!-- Submit Button -->
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg">Complete Payment</button>
-            </div>
-          </form>
+            <!-- </form> -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 
 <!-- Terms and Conditions Modal -->

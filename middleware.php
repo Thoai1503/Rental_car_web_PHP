@@ -29,7 +29,7 @@ if ($requestUri === '/login') {
 } elseif ($requestUri === '/logout') {
     session_start();
     session_destroy();
-    header('Location: /car_rent/login');
+    header('Location: /car_rent/index');
     exit();
 }
 

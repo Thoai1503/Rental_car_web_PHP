@@ -1,4 +1,5 @@
 <?php
+require_once 'controllers/PaymentController.php';
 
 // Authentication routes
 if ($requestUri === '/login') {
@@ -15,7 +16,7 @@ if ($requestUri === '/login') {
 } elseif ($requestUri === '/logout') {
     session_start();
     unset($_SESSION['user']);
-    header('Location: /car_rent/login');
+    header('Location: /car_rent/index');
     exit();
 }
 
@@ -30,9 +31,13 @@ if ($requestUri === '/index' || $requestUri === '/') {
     $homeController = new HomeController($pdo);
     $homeController->carDetails();
 } elseif ($requestUri === '/payment') {
+
     $homeController = new HomeController($pdo);
     $homeController->showPaymentForm();
-} 
+} elseif ($requestUri ==='/submitpayment' || str_contains($requestUri, '/submitpayment')) {
+    $paymentController = new PaymentController($pdo);
+    $paymentController->processPayment();
+}
 
 // Admin/management routes
 elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
@@ -54,6 +59,8 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
 } elseif ($requestUri === '/cars-add' || $requestUri === '/admin/cars-add') {
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
+} elseif ($requestUri === '/admin/submitpayment'){
+
 }
 
 // Car management routes
