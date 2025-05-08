@@ -1,15 +1,19 @@
     <?php
      require_once 'BaseRepositoryInterface.php';
+  
     class BookingRepository implements BaseRepositoryInterface{
         private $pdo;
         private $table = 'bookings';
         public $bookings = [];
+        private $userRepository;
 
         public function __construct($pdo)
         {
             require_once 'models/Booking.php';
             require_once 'helpers/function.php';
+            require_once 'repositories/UserRepository.php';
             $this->pdo = $pdo;  
+            $this->userRepository = new UserRepository($this->pdo);
         }
 
         public function getAll(): array {
@@ -20,6 +24,7 @@
            $results =[];
             foreach ($bookings as $bookingData) {
                 $booking=new Booking($bookingData['id'], $bookingData['user_id'], $bookingData['car_id'], $bookingData['start_date'], $bookingData['end_date'], $bookingData['status']);
+                $booking->setUserPhone($this->userRepository->getById($bookingData['user_id'])->getPhone());
                $results[] = $booking;
             }
             return $results;

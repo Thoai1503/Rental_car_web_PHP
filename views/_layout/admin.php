@@ -98,12 +98,25 @@
 
                                     </nav>
                                 </div>
+                               
+                            </nav>
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
-                                    aria-controls="pagesCollapseError">
-                                    Error
+                                    data-bs-target="#pagesCollapseAuth1" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">
+                                    Quản lý đặt xe
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
+                                <div class="collapse" id="pagesCollapseAuth1" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="http://localhost/car_rent/admin/booking-list">Danh sách đơn thuê
+                                            xe</a>
+                                        <a class="nav-link" href="http://localhost/car_rent/admin/addcar">Thêm xe</a>
+
+                                    </nav>
+                                </div>
+                              
                                 <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">

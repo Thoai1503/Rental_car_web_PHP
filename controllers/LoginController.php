@@ -28,6 +28,7 @@ class LoginController
                     'id' => $user->getId(),
                     'name' => $user->getName(),
                     'email' => $user->getEmail(),
+                    'phone' => $user->getPhone(),
                     'auth_id' => $user->getAuthId(),
                 ];
                 switch ($user->getAuthId()) {

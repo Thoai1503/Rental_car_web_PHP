@@ -58,13 +58,13 @@ ob_start();
   			    			
   			    					<div class="form-group">
   			                <label for="" class="label">Pick-up date</label>
-  			                <input type="date" class="form-control" id="book_pick_date" placeholder="Date" name="pickup_date" >
+  			                <input type="date" class="form-control" id="book_pick_date" placeholder="Date" name="pickup_date" onchange="inputStartDate(event)"  required>
   			              </div>
   			            
   		            
   		              <div class="form-group">
   		                <label for="" class="label">Drop-off date</label>
-  		                <input type="date" class="form-control" id="time_pick" placeholder="Time" name="dropoff_date" >
+  		                <input type="date" class="form-control" id="time_pick" placeholder="Time" name="dropoff_date" onchange="inputEndDate(event)" required>
   		              </div>
                     <div class="bg-light p-3 rounded-3 mb-4">
               <div class="row mb-2">
@@ -150,7 +150,7 @@ ob_start();
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Phone Number</label>
-                  <input type="tel" class="form-control" id="phone" name="phone" required>
+                  <input type="tel" class="form-control" id="phone" name="phone" value="<?=$_SESSION['user']['phone']?>"  required>
                 </div>
               </div>
               <?php } else{ ?>
@@ -362,6 +362,64 @@ ob_start();
 </div>
 
 <script>
+
+function inputStartDate(event) {
+  var input = event.target;
+  var dateValue = new Date(input.value);
+  var year = dateValue.getFullYear();
+  var month = String(dateValue.getMonth() + 1).padStart(2, '0');
+  var day = String(dateValue.getDate()).padStart(2, '0');
+  const startDate = `${year}-${month}-${day}`;
+
+  fetch('updateInputDate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ start_date: startDate })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log('Start date updated successfully:', data.start_date);
+    } else {
+      console.error('Error updating start date:', data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  }); 
+}
+
+function inputEndDate(event) {
+  var input = event.target;
+  var dateValue = new Date(input.value);
+  var year = dateValue.getFullYear();
+  var month = String(dateValue.getMonth() + 1).padStart(2, '0');
+  var day = String(dateValue.getDate()).padStart(2, '0');
+  const endDate = `${year}-${month}-${day}`;
+
+  fetch('updateInputDate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ end_date: endDate })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log('End date updated successfully:', data.endDate);
+    } else {
+      console.error('Error updating end date:', data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  }); 
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
   // Toggle payment method details
   document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
@@ -418,6 +476,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+<br />
+<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
+<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: Undefined array key "end_date" in C:\xampp\htdocs\car_rent\controllers\HomeController.php on line <i>392</i></th></tr>
+<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
+<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
+<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.1896</td><td bgcolor='#eeeeec' align='right'>413024</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\xampp\htdocs\car_rent\index.php' bgcolor='#eeeeec'>...\index.php<b>:</b>0</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.1905</td><td bgcolor='#eeeeec' align='right'>423632</td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'C:\xampp\htdocs\car_rent\middleware.php</font> )</td><td title='C:\xampp\htdocs\car_rent\index.php' bgcolor='#eeeeec'>...\index.php<b>:</b>8</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.2247</td><td bgcolor='#eeeeec' align='right'>662424</td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'C:\xampp\htdocs\car_rent\route.php</font> )</td><td title='C:\xampp\htdocs\car_rent\middleware.php' bgcolor='#eeeeec'>...\middleware.php<b>:</b>52</td></tr>
+<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.2678</td><td bgcolor='#eeeeec' align='right'>696696</td><td bgcolor='#eeeeec'>HomeController->updateInputDate(  )</td><td title='C:\xampp\htdocs\car_rent\route.php' bgcolor='#eeeeec'>...\route.php<b>:</b>42</td></tr>
+</table></font>
 
 <?php
 // Get the buffered content

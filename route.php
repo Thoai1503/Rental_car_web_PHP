@@ -15,6 +15,7 @@ if ($requestUri === '/login') {
     exit();
 } elseif ($requestUri === '/logout') {
     session_start();
+    unset($_SESSION['start_date']);
     unset($_SESSION['user']);
     header('Location: /car_rent/index');
     exit();
@@ -37,6 +38,9 @@ if ($requestUri === '/index' || $requestUri === '/') {
 } elseif ($requestUri ==='/submitpayment' || str_contains($requestUri, '/submitpayment')) {
     $paymentController = new PaymentController($pdo);
     $paymentController->processPayment();
+} elseif ($requestUri === '/updateInputDate'){
+    $homeController = new HomeController($pdo);
+    $homeController->updateInputDate();
 }
 
 // Admin/management routes
@@ -59,9 +63,18 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
 } elseif ($requestUri === '/cars-add' || $requestUri === '/admin/cars-add') {
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
-} elseif ($requestUri === '/admin/submitpayment'){
+} elseif ($requestUri === '/admin/bookings-list') {
+    $adminController = new AdminController($pdo);
+    $adminController->bookingTable();
+} elseif ($requestUri === '/admin/users-list') {
+    $adminController = new AdminController($pdo);
+  //  $adminController->userTable();
+} elseif ($requestUri === '/admin/edituser') {
+    $id = (int) $_REQUEST['id'];
+    $adminController = new AdminController($pdo);
+   // $adminController->editUser($id);
+} 
 
-}
 
 // Car management routes
  elseif (str_contains($requestUri, 'cars-edit')) {

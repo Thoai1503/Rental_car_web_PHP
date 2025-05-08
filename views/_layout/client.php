@@ -43,7 +43,59 @@
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/icomoon.css" />
     <link rel="stylesheet" href="http://localhost/car_rent/public/client/css/style_copy.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      /* Add this CSS to your style.css file or create a new stylesheet */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border: none;
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  padding: 8px 20px;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+.dropdown-divider {
+  margin: 5px 0;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+/* Ensure the dropdown appears on hover for desktop */
+@media (min-width: 992px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Custom animation for dropdown */
+.dropdown-menu {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    </style>
   </head>
+
 
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
     <div class="site-wrap" id="home-section">
@@ -87,12 +139,42 @@
                   <li><a href="blog.html" class="nav-link">Blog</a></li>
                   <li><a href="contact.html" class="nav-link">Contact</a></li>
                   <?php
-                  if (isset($_SESSION['user'])) {
-                    echo '<li><a href="logout" class="nav-link">Logout</a></li>';
-                  } else {
-                    echo '<li><a href="login" class="nav-link">Login</a></li>';
-                  }
-                  ?>
+                 if (isset($_SESSION['user'])) {
+                  echo '
+                  <li class="dropdown position-relative">
+                    <a href="#" class="dropdown-toggle nav-link" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="http://localhost/car_rent/public/client/images/person_1.jpg" style="width:30px;border-radius:50%" alt="user" class="img-fluid" />
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style="min-width: 200px;">
+                      <div class="px-3 py-2">
+                        <div class="d-flex align-items-center mb-2">
+                          <img src="http://localhost/car_rent/public/client/images/person_1.jpg" style="width:40px;border-radius:50%" alt="user" class="img-fluid mr-2" />
+                          <div>
+                            <strong><?php echo $_SESSION["user"]["name"] ?? "User"; ?></strong>
+                            <div class="small text-muted"><?php echo $_SESSION["user"]["email"] ?? "My name"; ?></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="profile.html">
+                        <i class="icon-user mr-2"></i> My Profile
+                      </a>
+                      <a class="dropdown-item" href="bookings.html">
+                        <i class="icon-calendar mr-2"></i> My Bookings
+                      </a>
+                      <a class="dropdown-item" href="favorites.html">
+                        <i class="icon-heart mr-2"></i> Favorite Cars
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="logout">
+                        <i class="icon-sign-out mr-2"></i> Logout
+                      </a>
+                    </div>
+                  </li>';
+                } else {
+                  echo '<li><a href="login" class="nav-link">Login</a></li>';
+                }
+                ?>
                 </ul>
               </nav>
             </div>
@@ -618,6 +700,31 @@
         </div>
       </footer>
     </div>
+    <script>
+      $(document).ready(function() {
+  // For mobile devices, handle click events on the dropdown toggle
+  $('.dropdown-toggle').on('click', function(e) {
+    if (window.innerWidth < 992) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(this).siblings('.dropdown-menu').toggle();
+    }
+  }); 
+  
+  // Close dropdown when clicking outside
+  $(document).on('click', function(e) {
+    if (!$(e.target).closest('.dropdown').length) {
+      $('.dropdown-menu').hide();
+    }
+  });
+  
+  // Add active class to dropdown items when clicked
+  $('.dropdown-item').on('click', function() {
+    $('.dropdown-item').removeClass('active');
+    $(this).addClass('active');
+  });
+});
+    </script>
 
     <script src="http://localhost/car_rent/public/client/js/jquery-3.3.1.min.js"></script>
     <script src="http://localhost/car_rent/public/client/js/popper.min.js"></script>

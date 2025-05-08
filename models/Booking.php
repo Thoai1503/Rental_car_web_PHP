@@ -3,7 +3,12 @@ class Booking
 {
     private int $id;
     private int $userId;
+    private string $userName;
+    private string $userEmail;
+    private string $userPhone;
     private int $carId;
+    private $totalPrice;
+  
     private string $startDate;
     private string $endDate;
     private string $status;
@@ -46,6 +51,39 @@ class Booking
     public function getStatus()
     {
         return $this->status;
+    }
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+    public function setUserEmail($userEmail)
+    {
+        $this->userEmail = $userEmail;
+    }
+    public function setUserPhone($userPhone)
+    {
+        $this->userPhone = $userPhone;
+    }
+
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+    public function getUserEmail()
+    {
+        return $this->userEmail;
+    }
+    public function getUserPhone()
+    {
+        return $this->userPhone;
+    }
+    public function getTotalPrice()
+    {
+        return $this->totalPrice;
+    }
+    public function setTotalPrice($totalPrice)
+    {
+        $this->totalPrice = $totalPrice;
     }
 }
 ?>

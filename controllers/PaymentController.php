@@ -43,6 +43,7 @@ class PaymentController
         header('Location: /car_rent/index');
         exit();
 
+    
     } 
 }
 }

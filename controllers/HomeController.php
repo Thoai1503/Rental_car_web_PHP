@@ -378,6 +378,41 @@ public function showPaymentForm() {
        // $car = $this->carRepository->getById($id);
         require_once 'views/client/cardetails.php';
     }
+
+    public function updateInputDate()
+    {
+
+        header('Content-Type: application/json');
+
+        $rawData = file_get_contents('php://input');
+      $data = json_decode($rawData, true);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          // $_SESSION['start_date'] = isset($data['start_date'])?? $data['start_date'] ;
+          if (isset($_SESSION['start_date'])) {
+              $_SESSION['start_date'] = $_SESSION['start_date'];
+            } else {
+                $_SESSION['start_date'] = $data['start_date'];
+         }
+
+           $_SESSION['end_date'] = isset($data['end_date'])? $data['end_date'] : null;
+   
+              $pickupDate = $_SESSION['start_date'];
+                $dropoffDate = $_SESSION['end_date'];
+       
+           if($pickupDate && $dropoffDate) {
+               $day= (strtotime($dropoffDate) - strtotime($pickupDate)) / (60 * 60 * 24);
+               $response = [
+                   'pickup_date' => $pickupDate,
+                   'dropoff_date' => $dropoffDate,
+                   'days' => $day
+               ];
+               echo json_encode($response);
+            } else {
+               echo json_encode(['start_date' => $pickupDate]);
+            }
+        }
+    }
 }
 
 ?>
