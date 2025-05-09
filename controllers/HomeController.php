@@ -390,7 +390,8 @@ public function showPaymentForm() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           // $_SESSION['start_date'] = isset($data['start_date'])?? $data['start_date'] ;
           if (isset($_SESSION['start_date'])) {
-              $_SESSION['start_date'] = $_SESSION['start_date'];
+            $startDate = $_SESSION['start_date'];
+              $_SESSION['start_date'] = $startDate;
             } else {
                 $_SESSION['start_date'] = $data['start_date'];
          }
@@ -403,11 +404,13 @@ public function showPaymentForm() {
            if($pickupDate && $dropoffDate) {
                $day= (strtotime($dropoffDate) - strtotime($pickupDate)) / (60 * 60 * 24);
                $response = [
-                   'pickup_date' => $pickupDate,
-                   'dropoff_date' => $dropoffDate,
+                   'start_date' => $pickupDate,
+                   'end_date' => $dropoffDate,
                    'days' => $day
                ];
                echo json_encode($response);
+               unset($_SESSION['start_date']);
+                unset($_SESSION['end_date']);
             } else {
                echo json_encode(['start_date' => $pickupDate]);
             }

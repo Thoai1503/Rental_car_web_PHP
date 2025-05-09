@@ -63,7 +63,7 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
 } elseif ($requestUri === '/cars-add' || $requestUri === '/admin/cars-add') {
     $carController = new CarController(new CarRepository($pdo));
     $carController->add();
-} elseif ($requestUri === '/admin/bookings-list') {
+} elseif ($requestUri === '/admin/booking-list') {
     $adminController = new AdminController($pdo);
     $adminController->bookingTable();
 } elseif ($requestUri === '/admin/users-list') {

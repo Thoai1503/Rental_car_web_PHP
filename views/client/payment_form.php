@@ -69,15 +69,15 @@ ob_start();
                     <div class="bg-light p-3 rounded-3 mb-4">
               <div class="row mb-2">
                 <div class="col-5 text-muted">Pick-up:</div>
-                <div class="col-7 fw-medium"><?php echo isset($rental_details['pickup_date']) ? htmlspecialchars($rental_details['pickup_date']) : date('M d, Y'); ?></div>
+                <div id="pickup_date" class="col-7 fw-medium">____/__/__</div>
               </div>
               <div class="row mb-2">
                 <div class="col-5 text-muted">Return:</div>
-                <div class="col-7 fw-medium"><?php echo isset($rental_details['return_date']) ? htmlspecialchars($rental_details['return_date']) : date('M d, Y', strtotime('+3 days')); ?></div>
+                <div id="dropoff_date" class="col-7 fw-medium">____/__/__</div>
               </div>
               <div class="row">
                 <div class="col-5 text-muted">Duration:</div>
-                <div class="col-7 fw-medium"><?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days</div>
+                <div id="duration" class="col-7 fw-medium">0 days</div>
               </div>
             </div>
             
@@ -380,8 +380,9 @@ function inputStartDate(event) {
   })
   .then(response => response.json())
   .then(data => {
-    if (data.success) {
+    if (data) {
       console.log('Start date updated successfully:', data.start_date);
+      document.getElementById('pickup_date').innerText = data.start_date;
     } else {
       console.error('Error updating start date:', data.error);
     }
@@ -408,8 +409,10 @@ function inputEndDate(event) {
   })
   .then(response => response.json())
   .then(data => {
-    if (data.success) {
-      console.log('End date updated successfully:', data.endDate);
+    if (data) {
+      console.log('End date updated successfully:', data);
+      document.getElementById('dropoff_date').innerText = data.end_date;
+      document.getElementById('duration').innerText = data.days + ' days';
     } else {
       console.error('Error updating end date:', data.error);
     }
@@ -476,16 +479,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-<br />
-<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: Undefined array key "end_date" in C:\xampp\htdocs\car_rent\controllers\HomeController.php on line <i>392</i></th></tr>
-<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
-<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
-<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.1896</td><td bgcolor='#eeeeec' align='right'>413024</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\xampp\htdocs\car_rent\index.php' bgcolor='#eeeeec'>...\index.php<b>:</b>0</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.1905</td><td bgcolor='#eeeeec' align='right'>423632</td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'C:\xampp\htdocs\car_rent\middleware.php</font> )</td><td title='C:\xampp\htdocs\car_rent\index.php' bgcolor='#eeeeec'>...\index.php<b>:</b>8</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.2247</td><td bgcolor='#eeeeec' align='right'>662424</td><td bgcolor='#eeeeec'>require_once( <font color='#00bb00'>'C:\xampp\htdocs\car_rent\route.php</font> )</td><td title='C:\xampp\htdocs\car_rent\middleware.php' bgcolor='#eeeeec'>...\middleware.php<b>:</b>52</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.2678</td><td bgcolor='#eeeeec' align='right'>696696</td><td bgcolor='#eeeeec'>HomeController->updateInputDate(  )</td><td title='C:\xampp\htdocs\car_rent\route.php' bgcolor='#eeeeec'>...\route.php<b>:</b>42</td></tr>
-</table></font>
 
 <?php
 // Get the buffered content
