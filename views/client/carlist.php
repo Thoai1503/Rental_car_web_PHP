@@ -44,7 +44,7 @@
         <div class="mb-4">
           <label class="form-label fw-medium">Car Type</label>
           <div class="d-flex flex-wrap gap-2">
-            <?php
+            <!-- <?php
               $carTypes = ['sedan', 'suv', 'coupe', 'convertible'];
               $selectedTypes = isset($_GET['car_type']) ? $_GET['car_type'] : [];
               
@@ -58,7 +58,29 @@
                   <?php echo ucfirst($type); ?>
                 </label>
               </div>
-            <?php } ?>
+            <?php } ?> -->
+
+
+            <?php
+            if (isset($carTs) && count($carTs) > 0) {
+              foreach ($carTs as $type) {
+                $checked = isset($_GET['car_type']) && in_array($type->getId(), $_GET['car_type']) ? 'checked' : '';
+            ?>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="<?php echo $type->getId(); ?>" 
+                         id="<?php echo $type->getName(); ?>" name="car_type[]" <?php echo $checked; ?>>
+                  <label class="form-check-label small" for="<?php echo $type->getName(); ?>">
+                    <?php echo htmlspecialchars($type->getName()); ?>
+                  </label>
+                  </div>
+            <?php
+              }
+            }
+            ?>
+          
+
+           
+
           </div>
         </div>
         

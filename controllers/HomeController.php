@@ -49,6 +49,7 @@ public function carList() {
     $_SESSION['displayForm'] = false;
     $brands = $this->carBrandRepository->getAll();
     $cars = $this->carList;
+    $carTs = $this->carTypeRepository->getAll();
     
     // Determine if this is an AJAX request
     $isAjax = false;
@@ -109,7 +110,7 @@ public function carList() {
                 if (!in_array($carType, $carTypes)) {
                     $include = false;
                 }
-            }
+              }
             
             if ($include) {
                 $filteredCars[] = $car;
