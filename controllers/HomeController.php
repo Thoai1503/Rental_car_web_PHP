@@ -172,6 +172,8 @@ public function carList() {
   
 public function showPaymentForm() {
     $_SESSION['displayForm'] = false;
+    unset($_SESSION['start_date']);
+    unset($_SESSION['end_date']);
     // Get car ID from URL parameter
     $carId = isset($_GET['car_id']) ? (int)$_GET['car_id'] : 0;
     
@@ -224,14 +226,14 @@ public function showPaymentForm() {
 
     public function updateInputDate()
     {
-     
+         
         header('Content-Type: application/json');
 
         $rawData = file_get_contents('php://input');
       $data = json_decode($rawData, true);
-//var_dump($data);die();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-          // $_SESSION['start_date'] = isset($data['start_date'])?? $data['start_date'] ;
+   
           if (isset($_SESSION['start_date'])) {
             $startDate = $_SESSION['start_date'];
               $_SESSION['start_date'] = $startDate;

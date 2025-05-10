@@ -136,10 +136,12 @@
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="transmission" name="transmission" required>
                                             <option value="" selected disabled>Chọn hộp số</option>
-                                            <option value="Số tự động">Số tự động</option>
+                                            <!-- <option value="Số tự động">Số tự động</option>
                                             <option value="Số sàn">Số sàn</option>
                                             <option value="Bán tự động">Bán tự động</option>
-                                            <option value="Vô cấp CVT">Vô cấp CVT</option>
+                                            <option value="Vô cấp CVT">Vô cấp CVT</option> -->
+                                            <option value="manual">Số sàn</option>
+                                            <option value="automatic">Số tự động</option>
                                         </select>
                                         <label for="transmission"><i class="fas fa-cogs me-2"></i>Hộp số</label>
                                     </div>

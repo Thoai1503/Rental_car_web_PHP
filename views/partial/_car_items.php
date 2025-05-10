@@ -12,10 +12,10 @@
             <h3 class="h5"><a href="#" class="text-decoration-none"><?php echo htmlspecialchars($car->getName()); ?></a></h3>
             <div class="rating mb-2">
               <?php for ($s = 0; $s < 5; $s++): ?>
-                <span class="icon-star text-warning">★</span>
+                <span class="icon-star text-warning"></span>
               <?php endfor; ?>
             </div>
-            <div class="rent-price mb-3"><span class="fw-bold text-primary">$<?php echo number_format($car->getPricePerDay(), 2); ?>/</span>day</div>
+            <div class="rent-price mb-3"><span class="fw-bold text-primary"><?php echo number_format($car->getPricePerDay(), 0); ?> VND/</span>day</div>
           </div>
           <ul class="specs list-unstyled mb-3">
             <li class="d-flex justify-content-between border-bottom py-2">
@@ -24,7 +24,7 @@
             </li>
             <li class="d-flex justify-content-between border-bottom py-2">
               <span class="text-muted">Seats</span>
-              <span class="spec fw-medium">5</span>
+              <span class="spec fw-medium"><?php echo $car->getSeats(); ?></span>
             </li>
             <li class="d-flex justify-content-between border-bottom py-2">
               <span class="text-muted">Transmission</span>

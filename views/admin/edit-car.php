@@ -49,18 +49,40 @@
                                         <label for="type"><i class="fas fa-tags me-2"></i>Loại xe</label>
                                     </div>
                                 </div>
-                    <div class="col-md-6">
-                        <label for="fuel_type" class="form-label">Fuel Type</label>
-                        <input type="text" class="form-control" id="fuel_type" name="fuel_type" value="<?= $car->getFuelType() ?>" required>
-                    </div>
+                               <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="fuel_type" name="fuel_type" required>
+                                            <option value="<?= $car->getFuelType() ?>" selected><?= $car->getFuelType() ?></option>
+                                            <option value="Xăng">Xăng</option>
+                                            <option value="Dầu">Dầu</option>
+                                            <option value="Điện">Điện</option>
+                                            <option value="Hybrid">Hybrid</option>
+                                        </select>
+                                        <label for="fuel_type"><i class="fas fa-gas-pump me-2"></i>Loại nhiên liệu</label>
+                                    </div>
+                                </div>
                     <div class="col-md-6">
                         <label for="seats" class="form-label">Seats</label>
                         <input type="number" class="form-control" id="seats" name="seats" value="<?= $car->getSeats() ?>" required>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <label for="transmission" class="form-label">Transmission</label>
                         <input type="text" class="form-control" id="transmission" name="transmission" value="<?= $car->getTransmission() ?>" required>
-                    </div>
+                    </div> -->
+                    <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="transmission" name="transmission" required>
+                                            <option value="<?= $car->getTransmission() ?>" selected><?= $car->getTransmission()=='manual'?'Số sàn':'Số tự động' ?></option>
+                                            <!-- <option value="Số tự động">Số tự động</option>
+                                            <option value="Số sàn">Số sàn</option>
+                                            <option value="Bán tự động">Bán tự động</option>
+                                            <option value="Vô cấp CVT">Vô cấp CVT</option> -->
+                                            <option value="manual">Số sàn</option>
+                                            <option value="automatic">Số tự động</option>
+                                        </select>
+                                        <label for="transmission"><i class="fas fa-cogs me-2"></i>Hộp số</label>
+                                    </div>
+                                </div>
                     <div class="col-md-6">
                         <label for="price_per_day" class="form-label">Price per Day ($)</label>
                         <input type="number" class="form-control" id="price_per_day" name="price_per_day" value="<?= $car->getPricePerDay() ?>" required>

@@ -15,7 +15,7 @@ if ($requestUri === '/login') {
     exit();
 } elseif ($requestUri === '/logout') {
     session_start();
-    unset($_SESSION['start_date']);
+   
     unset($_SESSION['user']);
     header('Location: /car_rent/index');
     exit();
@@ -32,9 +32,15 @@ if ($requestUri === '/index' || $requestUri === '/') {
     $homeController = new HomeController($pdo);
     $homeController->carDetails();
 } elseif ($requestUri === '/payment') {
-
-    $homeController = new HomeController($pdo);
-    $homeController->showPaymentForm();
+   if (isset($_SESSION['user'])) {
+        $homeController = new HomeController($pdo);
+        $homeController->showPaymentForm();
+    } else {
+        header('Location: /car_rent/login');
+        exit();
+    }
+    // $homeController = new HomeController($pdo);
+    // $homeController->showPaymentForm();
 } elseif ($requestUri ==='/submitpayment' || str_contains($requestUri, '/submitpayment')) {
     $paymentController = new PaymentController($pdo);
     $paymentController->processPayment();
