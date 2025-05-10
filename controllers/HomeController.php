@@ -208,168 +208,7 @@ public function showPaymentForm() {
     require_once 'views/client/payment_form.php';
 }
 
-/**
- * Process the payment form submission
- */
-// public function processPayment() {
-//     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-//         header('Location: carlist');
-//         exit;
-//     }
-    
-//     // Get form data
-//     $carId = isset($_POST['car_id']) ? (int)$_POST['car_id'] : 0;
-//     $totalAmount = isset($_POST['total_amount']) ? (float)$_POST['total_amount'] : 0;
-    
-//     if (!$carId || !$totalAmount) {
-//         $_SESSION['error'] = "Invalid payment information";
-//         header('Location: carlist');
-//         exit;
-//     }
-    
-//     // Get car details
-//     $car = $this->carRepository->findById($carId);
-    
-//     if (!$car) {
-//         $_SESSION['error'] = "Car not found";
-//         header('Location: carlist');
-//         exit;
-//     }
-    
-//     // Validate customer information
-//     $requiredFields = [
-//         'first_name', 'last_name', 'email', 'phone', 
-//         'address', 'city', 'state', 'zip',
-//         'license_number', 'license_expiry', 'dob'
-//     ];
-    
-//     $formData = [];
-//     $isValid = true;
-    
-//     foreach ($requiredFields as $field) {
-//         if (empty($_POST[$field])) {
-//             $isValid = false;
-//             break;
-//         }
-//         $formData[$field] = $_POST[$field];
-//     }
-    
-//     if (!$isValid) {
-//         $_SESSION['error'] = "Please fill in all required fields";
-//         $_SESSION['form_data'] = $_POST;
-//         header('Location: payment?car_id=' . $carId);
-//         exit;
-//     }
-    
-//     // Check payment method
-//     $paymentMethod = isset($_POST['payment_method']) ? $_POST['payment_method'] : '';
-    
-//     if ($paymentMethod === 'credit_card') {
-//         // Validate credit card information
-//         $creditCardFields = ['card_number', 'expiry_date', 'cvv', 'card_name'];
-        
-//         foreach ($creditCardFields as $field) {
-//             if (empty($_POST[$field])) {
-//                 $_SESSION['error'] = "Please fill in all credit card details";
-//                 $_SESSION['form_data'] = $_POST;
-//                 header('Location: payment?car_id=' . $carId);
-//                 exit;
-//             }
-//         }
-        
-//         // Process credit card payment (this would be integrated with a payment gateway)
-//         // For this example, we'll assume payment is successful
-//         $paymentSuccess = true;
-        
-//     } else if ($paymentMethod === 'paypal') {
-//         // In a real application, you would redirect to PayPal here
-//         // For this example, we'll assume payment is successful
-//         $paymentSuccess = true;
-        
-//     } else {
-//         $_SESSION['error'] = "Invalid payment method";
-//         $_SESSION['form_data'] = $_POST;
-//         header('Location: payment?car_id=' . $carId);
-//         exit;
-//     }
-    
-//     // If payment is successful, create rental record
-//     if ($paymentSuccess) {
-//         // Get rental details
-//         $rentalDetails = isset($_SESSION['rental_details']) ? $_SESSION['rental_details'] : [
-//             'pickup_date' => date('Y-m-d'),
-//             'return_date' => date('Y-m-d', strtotime('+3 days')),
-//             'days' => 3
-//         ];
-        
-//         // Create customer record
-//         $customer = [
-//             'first_name' => $formData['first_name'],
-//             'last_name' => $formData['last_name'],
-//             'email' => $formData['email'],
-//             'phone' => $formData['phone'],
-//             'address' => $formData['address'],
-//             'city' => $formData['city'],
-//             'state' => $formData['state'],
-//             'zip' => $formData['zip'],
-//             'license_number' => $formData['license_number'],
-//             'license_expiry' => $formData['license_expiry'],
-//             'dob' => $formData['dob']
-//         ];
-        
-//         // Save customer and get customer ID
-//         $customerId = $this->saveCustomer($customer);
-        
-//         // Create rental record
-//         $rental = [
-//             'customer_id' => $customerId,
-//             'car_id' => $carId,
-//             'pickup_date' => $rentalDetails['pickup_date'],
-//             'return_date' => $rentalDetails['return_date'],
-//             'total_days' => $rentalDetails['days'],
-//             'total_amount' => $totalAmount,
-//             'payment_method' => $paymentMethod,
-//             'status' => 'confirmed',
-//             'additional_driver' => isset($_POST['additional_driver']) ? 1 : 0,
-//             'gps' => isset($_POST['gps']) ? 1 : 0,
-//             'child_seat' => isset($_POST['child_seat']) ? 1 : 0,
-//             'created_at' => date('Y-m-d H:i:s')
-//         ];
-        
-//         // Save rental and get rental ID
-//         $rentalId = $this->rentalRepository->create($rental);
-        
-//         // Create payment record
-//         $payment = [
-//             'rental_id' => $rentalId,
-//             'amount' => $totalAmount,
-//             'payment_method' => $paymentMethod,
-//             'status' => 'completed',
-//             'transaction_id' => 'TR' . time(), // Generate transaction ID
-//             'created_at' => date('Y-m-d H:i:s')
-//         ];
-        
-//         // Save payment
-//         $this->paymentRepository->create($payment);
-        
-//         // Clear session data
-//         unset($_SESSION['rental_details']);
-//         unset($_SESSION['form_data']);
-        
-//         // Set success message
-//         $_SESSION['success'] = "Payment successful! Your rental has been confirmed.";
-        
-//         // Redirect to confirmation page
-//         header('Location: confirmation?rental_id=' . $rentalId);
-//         exit;
-//     } else {
-//         // Payment failed
-//         $_SESSION['error'] = "Payment failed. Please try again.";
-//         $_SESSION['form_data'] = $_POST;
-//         header('Location: payment?car_id=' . $carId);
-//         exit;
-//     }
-// }
+
     public function carDetails()
     {
             $_SESSION['displayForm'] = false;
@@ -384,12 +223,12 @@ public function showPaymentForm() {
 
     public function updateInputDate()
     {
-
+     
         header('Content-Type: application/json');
 
         $rawData = file_get_contents('php://input');
       $data = json_decode($rawData, true);
-
+//var_dump($data);die();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           // $_SESSION['start_date'] = isset($data['start_date'])?? $data['start_date'] ;
           if (isset($_SESSION['start_date'])) {

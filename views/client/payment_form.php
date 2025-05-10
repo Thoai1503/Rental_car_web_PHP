@@ -85,31 +85,33 @@ ob_start();
             <h6 class="fw-bold mb-3">Price Details</h6>
             <div class="mb-2 d-flex justify-content-between">
               <span>Daily Rate:</span>
-              <span class="fw-medium">$<?php echo number_format($car->getPricePerDay(), 2); ?></span>
+              <span class="fw-medium"><?php echo number_format($car->getPricePerDay(), 0); ?> VND</span>
             </div>
             <div class="mb-2 d-flex justify-content-between">
-              <span>Rental Period (<?php echo isset($rental_details['days']) ? $rental_details['days'] : '3'; ?> days):</span>
-              <span class="fw-medium">$<?php echo number_format($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3), 2); ?></span>
+              <span id="rental_show" >Rental Period (_ days):</span>
+              <span id="total_show" class="fw-medium">0 VND</span>
             </div>
-            <div class="mb-2 d-flex justify-content-between">
-              <span>Insurance:</span>
-              <span class="fw-medium">$<?php echo number_format((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25, 2); ?></span>
-            </div>
+          
             <div class="mb-2 d-flex justify-content-between">
               <span>Tax (10%):</span>
-              <span class="fw-medium">$<?php 
-                $subtotal = ($car->getPricePerDay() * (isset($rental_details['days']) ? $rental_details['days'] : 3)) + ((isset($rental_details['days']) ? $rental_details['days'] : 3) * 25);
-                echo number_format($subtotal * 0.1, 2); 
-              ?></span>
+              <span id="tax_show" class="fw-medium">
+                <?php 
+                  $tax = ($car->getPricePerDay() * 0.1);
+                  echo number_format($tax, 0); 
+                ?> VND
+               </span>
             </div>
             <hr>
             <div class="d-flex justify-content-between fw-bold">
               <span>Total:</span>
-              <span class="text-primary fs-5">$<?php 
-                $total = $subtotal + ($subtotal * 0.1);
-                echo number_format($total, 2); 
-              ?></span>
-              <input type="hidden" name="total_price" value="<?php echo $total; ?>">
+              <span id="total_price_show" class="text-primary fs-5">
+                <?php 
+                  $total = ($car->getPricePerDay() + $tax);
+                  echo number_format($total, 0); 
+                ?> VND
+                 
+              </span>
+              <input id="total_price" type="hidden" name="total_price" value="<?php echo $total; ?>">
             </div>
           </div>
         </div>
@@ -123,8 +125,8 @@ ob_start();
           </div>
           <div class="card-body p-4">
             <!-- <form id="payment-form" method="post" action="process_payment"> -->
-              <input type="hidden" name="car_id" value="<?php echo $car->getId(); ?>">
-              <!-- <input type="hidden" name="total_amount" value="<?php echo $total; ?>"> -->
+              <input id="car_id" type="hidden" name="car_id" value="<?php echo $car->getId(); ?>">
+              <input id="price_per_day" type="hidden" name="total_amount" value="<?php echo $car->getPricePerDay(); ?>">
               
               <!-- Customer Information -->
               <h6 class="fw-bold mb-3">Customer Information</h6>
@@ -399,6 +401,8 @@ function inputEndDate(event) {
   var month = String(dateValue.getMonth() + 1).padStart(2, '0');
   var day = String(dateValue.getDate()).padStart(2, '0');
   const endDate = `${year}-${month}-${day}`;
+  var carId = document.getElementById('car_id').value;
+  var pricePerDay = document.getElementById('price_per_day').value;
 
   fetch('updateInputDate', {
     method: 'POST',
@@ -413,6 +417,15 @@ function inputEndDate(event) {
       console.log('End date updated successfully:', data);
       document.getElementById('dropoff_date').innerText = data.end_date;
       document.getElementById('duration').innerText = data.days + ' days';
+ var total=(data.days * pricePerDay);
+      var totalPrice = (data.days * pricePerDay) + ((data.days * pricePerDay) * 0.1);
+      var tax = (data.days * pricePerDay) * 0.1;
+      document.getElementById('tax_show').innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tax);
+      document.getElementById('total_show').innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+      document.getElementById('total_price').value = totalPrice;
+      document.getElementById('total_price_show').innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
+      document.getElementById('rental_show').innerText = 'Rental Period (' + data.days + ' days):';
+
     } else {
       console.error('Error updating end date:', data.error);
     }
@@ -479,6 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
 
 <?php
 // Get the buffered content

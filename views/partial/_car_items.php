@@ -37,10 +37,10 @@
           </ul>
           <div class="d-flex gap-2">
             <!-- Rent Now button -->
-            <a href="rent?car_id=<?php echo $car->getId(); ?>" class="btn btn-primary flex-grow-1">Rent Now</a>
+            <a href="http://carrental45678.fwh.is/car_rent/payment?car_id=<?php echo $car->getId(); ?>" class="btn btn-primary flex-grow-1">Rent Now</a>
             
             <!-- View Details button -->
-            <a href="cardetails?id=<?php echo $car->getId(); ?>" class="btn btn-outline-primary ml-2">
+            <a href="http://carrental45678.fwh.is/car_rent/cardetails?id=<?php echo $car->getId(); ?>" class="btn btn-outline-primary ml-2">
               <i class="bi bi-info-circle"></i> View Details
             </a>
           </div>

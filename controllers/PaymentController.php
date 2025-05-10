@@ -40,7 +40,7 @@ class PaymentController
          $this->bookingRepository->create($data);
 
         // Redirect to a success page or show a success message
-        header('Location: /car_rent/index');
+        header('Location: /car_rent/mybookings');
         exit();
 
     
