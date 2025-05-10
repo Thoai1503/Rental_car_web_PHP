@@ -113,7 +113,7 @@ ob_start();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>
@@ -159,7 +159,7 @@ ob_start();
                     },
                     body: JSON.stringify({
                         carId: carId,
-                        status: status
+                        status: status  
                     })
                 })
                 .then(response => response.json())
@@ -167,14 +167,14 @@ ob_start();
             console.log("Raw response from server:", text);
 
             // Cố gắng loại bỏ ký tự không hợp lệ trước JSON (nếu có)
-        let jsonStr = text.trim();
-            if (!jsonStr.startsWith('{')) {
-                jsonStr = jsonStr.substring(jsonStr.indexOf('{'));
-            }
+        // let jsonStr = text.trim();
+        //     if (!jsonStr.startsWith('{')) {
+        //         jsonStr = jsonStr.substring(jsonStr.indexOf('{'));
+        //     }
 
             let responseData;
             try {
-                responseData = JSON.parse(jsonStr);
+                responseData = text
             } catch (e) {
                 throw new Error("Server returned invalid JSON: " + text);
             }

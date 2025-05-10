@@ -159,7 +159,7 @@
                       <a class="dropdown-item" href="profile.html">
                         <i class="icon-user mr-2"></i> My Profile
                       </a>
-                      <a class="dropdown-item" href="bookings.html">
+                      <a class="dropdown-item" href="http://localhost/car_rent/mybookings">
                         <i class="icon-calendar mr-2"></i> My Bookings
                       </a>
                       <a class="dropdown-item" href="favorites.html">
@@ -172,7 +172,7 @@
                     </div>
                   </li>';
                 } else {
-                  echo '<li><a href="login" class="nav-link">Login</a></li>';
+                  echo '<li><a href="http://localhost/car_rent/login" class="nav-link">Login</a></li>';
                 }
                 ?>
                 </ul>

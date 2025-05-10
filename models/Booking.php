@@ -1,4 +1,5 @@
 <?php
+require_once 'models/Car.php';
 class Booking
 {
     private int $id;
@@ -7,17 +8,20 @@ class Booking
     private string $userEmail;
     private string $userPhone;
     private int $carId;
+
+    private Car $car;
     private $totalPrice;
   
     private string $startDate;
     private string $endDate;
     private string $status;
 
-    public function __construct($id, $userId, $carId, $startDate, $endDate, $status)
+    public function __construct($id, $userId, $carId,$totalPrice, $startDate, $endDate, $status)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->carId = $carId;
+        $this->totalPrice = $totalPrice;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->status = $status;
@@ -84,6 +88,14 @@ class Booking
     public function setTotalPrice($totalPrice)
     {
         $this->totalPrice = $totalPrice;
+    }
+    public function getCar()
+    {
+        return $this->car;
+    }
+    public function setCar($car)
+    {
+        $this->car = $car;
     }
 }
 ?>

@@ -23,7 +23,7 @@
             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
            $results =[];
             foreach ($bookings as $bookingData) {
-                $booking=new Booking($bookingData['id'], $bookingData['user_id'], $bookingData['car_id'], $bookingData['start_date'], $bookingData['end_date'], $bookingData['status']);
+                $booking=new Booking($bookingData['id'], $bookingData['user_id'], $bookingData['car_id'],$bookingData['total_price'], $bookingData['start_date'], $bookingData['end_date'], $bookingData['status']);
                 $booking->setUserPhone($this->userRepository->getById($bookingData['user_id'])->getPhone());
                $results[] = $booking;
             }
@@ -36,7 +36,7 @@
             $stmt->execute([$id]);
             $bookingData = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($bookingData) {
-               return new Booking($bookingData['id'], $bookingData['user_id'],$bookingData['car_id'],  $bookingData['start_date'],  $bookingData['end_date'],  $bookingData['status']);
+               return new Booking($bookingData['id'], $bookingData['user_id'],$bookingData['car_id'],$bookingData['total_price'],  $bookingData['start_date'],  $bookingData['end_date'],  $bookingData['status']);
             }
           
             return null;
@@ -64,7 +64,10 @@
             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $results =[];
             foreach ($bookings as $bookingData) {
-                $booking=new Booking($bookingData['id'], $bookingData['user_id'], $bookingData['car_id'], $bookingData['start_date'], $bookingData['end_date'], $bookingData['status']);
+                $booking=new Booking($bookingData['id'], $bookingData['user_id'], $bookingData['car_id'],$bookingData['total_price'], $bookingData['start_date'], $bookingData['end_date'], $bookingData['status']);
+                $booking->setUserPhone($this->userRepository->getById($bookingData['user_id'])->getPhone());
+                $booking->setUserName($this->userRepository->getById($bookingData['user_id'])->getName());
+                $booking->setUserEmail($this->userRepository->getById($bookingData['user_id'])->getEmail());
                $results[] = $booking;
             }
             return $results;

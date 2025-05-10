@@ -9,7 +9,7 @@ class Authorization
       $this->id_authen=$id_authen;
       $this->url=$url;
     
-      $this->$title=$title;
+      $this->title=$title;
     }
     public function getIdAuthen(){
       return  $this->id_authen;

@@ -3,6 +3,7 @@ require_once 'repositories/CarRepository.php';
 
 require_once 'repositories/CarTypeRepository.php';
 require_once 'repositories/CarBrandRepository.php';
+require_once 'repositories/BookingRepository.php';
 require_once 'helpers/function.php';
 
 
@@ -13,6 +14,7 @@ class HomeController
     private $carRepository;
     private $carTypeRepository;
     private $carBrandRepository;
+    private $bookingRepository;
     private $carList = [];
 
     public function __construct($pdo)
@@ -21,6 +23,7 @@ class HomeController
         $this->carRepository = new CarRepository($this->pdo);
         $this->carTypeRepository = new CarTypeRepository($this->pdo);
         $this->carBrandRepository = new CarBrandRepository($this->pdo);
+        $this->bookingRepository = new BookingRepository($this->pdo);
         $list = $this->carRepository->getAllAvailableCar();
         foreach ($list as $car) {
             $this->carList[$car->getId()] = $car;
@@ -415,6 +418,15 @@ public function showPaymentForm() {
                echo json_encode(['start_date' => $pickupDate]);
             }
         }
+    }
+    public function myBookings() 
+    {
+        $_SESSION['displayForm'] = false;
+        $userId = $_SESSION['user']['id'];
+        $bookings = $this->bookingRepository->getBookingsByUserId($userId);
+     
+        require_once 'views/client/mybooking.php';
+        
     }
 }
 

@@ -3,6 +3,7 @@ require_once 'repositories/CarRepository.php';
 require_once 'repositories/CarTypeRepository.php';
 require_once 'repositories/CarBrandRepository.php';
 require_once 'repositories/BookingRepository.php';
+require_once 'repositories/UserRepository.php';
 class AdminController{
 
     private $pdo;
@@ -10,6 +11,7 @@ class AdminController{
     private $carTypeRepository;
     private $carBrandRepository;
     private $bookingRepository;
+    private $userRepository;
     public function __construct($pdo)
     {
      
@@ -18,6 +20,7 @@ class AdminController{
         $this->carTypeRepository = new CarTypeRepository($this->pdo);
         $this->carBrandRepository = new CarBrandRepository($this->pdo);
         $this->bookingRepository = new BookingRepository($this->pdo);
+        $this->userRepository = new UserRepository($this->pdo);
     }
     public function index()
     {
@@ -89,6 +92,13 @@ public function bookingTable()
     $bookings = $this->bookingRepository->getAll();
     require 'views/admin/bookinglist.php';
 
+}
+public function bookingDetail($id)
+{
+    $booking = $this->bookingRepository->getById($id);
+    $user = $this->userRepository->getById($booking->getUserId());
+    $booking->setCar($this->carRepository->getById($booking->getCarId()));
+    require 'views/admin/bookingdetail.php';
 }
 }
 ?>

@@ -31,7 +31,8 @@ ob_start();
                                             <th>User Phone</th>
                                             <th>Start date</th>
                                             <th>End date</th>
-                                            <th>Salary</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -41,7 +42,8 @@ ob_start();
                                             <th>User Phone</th>
                                             <th>Start date</th>
                                             <th>End date</th>
-                                            <th>Salary</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -57,7 +59,11 @@ ob_start();
                                                     <td><?= $book->getStartDate() ?></td>
                                                     <td><?= $book->getEndDate() ?></td>
                                                     <td><?= $book->getStatus() ?></td>
-
+                                                    <td>
+                                                      
+                                                        <a href="index.php?controller=booking&action=update&id=<?= $book->getId() ?>" class="btn btn-primary">Update</a>
+                                                        <a href="bookingdetail?id=<?= $book->getId() ?>" class="btn btn-info">Detail</a>
+                                                    </td>
                                                 </tr>
 
                                             

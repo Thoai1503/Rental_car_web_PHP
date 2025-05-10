@@ -41,8 +41,10 @@ if ($requestUri === '/index' || $requestUri === '/') {
 } elseif ($requestUri === '/updateInputDate'){
     $homeController = new HomeController($pdo);
     $homeController->updateInputDate();
-}
-
+} elseif ($requestUri ==='/mybookings') {
+    $homeController = new HomeController($pdo);
+    $homeController->myBookings();
+} 
 // Admin/management routes
 elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
     $adminController = new AdminController($pdo);
@@ -73,7 +75,12 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
     $id = (int) $_REQUEST['id'];
     $adminController = new AdminController($pdo);
    // $adminController->editUser($id);
-} 
+} elseif ($requestUri === '/admin/bookingdetail') {
+    $id = (int) $_REQUEST['id'];
+    $adminController = new AdminController($pdo);
+    $adminController->bookingDetail($id);
+}
+
 
 
 // Car management routes
