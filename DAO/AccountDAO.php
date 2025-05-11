@@ -26,7 +26,7 @@ class AccountDAO
        // $stmt->fetch(PDO::FETCH_ASSOC);
       $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
-            return new User($user['id'], $user['name'],$user['phone'], $user['email'], $user['id_auth']);
+            return new User($user['id'], $user['name'],$user['phone'], $user['email'], $user['id_auth'], $user['active']);
         } else {
             return null;
         }
