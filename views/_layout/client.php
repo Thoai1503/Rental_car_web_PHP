@@ -133,14 +133,15 @@
                   <li class="active">
                     <a href="index" class="nav-link">Home</a>
                   </li>
-                  <li><a href="services.html" class="nav-link">Services</a></li>
+                  <li><a href="#" class="nav-link">Services</a></li>
                   <li><a href="carlist" class="nav-link">Cars</a></li>
-                  <li><a href="about.html" class="nav-link">About</a></li>
-                  <li><a href="blog.html" class="nav-link">Blog</a></li>
-                  <li><a href="contact.html" class="nav-link">Contact</a></li>
+                  <li><a href="#" class="nav-link">About</a></li>
+                  <li><a href="#" class="nav-link">Blog</a></li>
+                  <li><a href="#" class="nav-link">Contact</a></li>
                   <?php
                  if (isset($_SESSION['user'])) {
                   echo '
+                   <li><a href="logout" class="nav-link">Logout</a></li>
                   <li class="dropdown position-relative">
                     <a href="#" class="dropdown-toggle nav-link" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="http://localhost/car_rent/public/client/images/person_1.jpg" style="width:30px;border-radius:50%" alt="user" class="img-fluid" />

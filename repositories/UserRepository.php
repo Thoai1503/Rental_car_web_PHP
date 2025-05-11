@@ -15,7 +15,19 @@ require_once 'models/User.php';
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $results =[];
         foreach ($users as $userData) {
-            $user=new User($userData['id'], $userData['name'], $userData['phone'], $userData['email'], $userData['auth_id']);
+            $user=new User($userData['id'], $userData['name'], $userData['phone'], $userData['email'], $userData['id_auth'], $userData['active']);
+            $results[] = $user;
+        }
+        return $results;
+    }
+
+    public function getAllClient(): array {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id_auth=2");
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results =[];
+        foreach ($users as $userData) {
+            $user=new User($userData['id'], $userData['name'], $userData['phone'], $userData['email'], $userData['id_auth'], $userData['active']);
             $results[] = $user;
         }
         return $results;
@@ -27,7 +39,7 @@ require_once 'models/User.php';
         $stmt->execute([$id]);
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($userData) {
-            return new User($userData['id'], $userData['name'], $userData['phone'], $userData['email'], $userData['id_auth']);
+            return new User($userData['id'], $userData['name'], $userData['phone'], $userData['email'], $userData['id_auth'],   $userData['active']);
         }
         return null;
 	}

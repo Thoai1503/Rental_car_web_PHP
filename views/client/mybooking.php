@@ -39,6 +39,7 @@
                                         <?php else: ?>
                                             <span class="badge bg-primary">Upcoming</span>
                                         <?php endif; ?>
+                                        
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

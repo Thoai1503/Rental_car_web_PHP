@@ -100,6 +100,11 @@ public function bookingDetail($id)
     $booking->setCar($this->carRepository->getById($booking->getCarId()));
     require 'views/admin/bookingdetail.php';
 }
+public function userTable()
+{
+    $users = $this->userRepository->getAllClient();
+    require 'views/admin/user-list.php';
+}
 }
 ?>
 

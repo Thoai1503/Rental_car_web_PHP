@@ -6,12 +6,15 @@ class User
     private string $email;
     private string $phone;
     private  $auth_id;
-    public function __construct($id,$name,$phone,$email,$auth_id){
+
+    private string $status;
+    public function __construct($id,$name,$phone,$email,$auth_id,$status){
       $this->id=$id;
       $this->name=$name;
       $this->phone=$phone;
       $this->email=$email;
       $this->auth_id=$auth_id;
+      $this->status=$status;
 
 
     }
@@ -47,6 +50,10 @@ class User
     public function setId($id){
       $this->id=$id;
     }
+    public function getStatus(){
+      return $this->status;
+    }
+    
     
 
 

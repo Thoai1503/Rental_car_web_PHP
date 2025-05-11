@@ -42,7 +42,7 @@ class RegisterController
                     'name' => $name,
                     'auth_id' => 2 // Assuming 2 is the auth_id for regular users
                 ];
-                header('Location: /car_rent/index');
+                header('Location: /car_rent/index?registration_successful=true&name=' . urlencode($name));
                 exit();
             }
             } 

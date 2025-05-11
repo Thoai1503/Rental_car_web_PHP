@@ -58,6 +58,9 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
 } elseif ($requestUri === '/admin/cars-list') {
     $adminController = new AdminController($pdo);
     $adminController->carTable();
+} elseif ($requestUri ==='/admin/user-list'){
+    $adminController = new AdminController($pdo);
+    $adminController->userTable();
 } elseif ($requestUri === '/admin/addcar') {
     $adminController = new AdminController($pdo);
     $adminController->addView();
