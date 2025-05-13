@@ -217,10 +217,6 @@ public function showPaymentForm() {
             $_SESSION['displayForm'] = false;
        $id = (int)$_GET['id'];
         $car = $this->carRepository->getById($id);
-        // dd($car);die();
-        // $carTypes = $this->carTypeRepository->getAll();
-        // $carBrands = $this->carBrandRepository->getAll();
-       // $car = $this->carRepository->getById($id);
         require_once 'views/client/cardetails.php';
     }
 
@@ -265,7 +261,7 @@ public function showPaymentForm() {
     {
         $_SESSION['displayForm'] = false;
         $userId = $_SESSION['user']['id'];
-        $bookings = $this->bookingRepository->getBookingsByUserId($userId);
+        $bookings = $this->bookingRepository->getByUserId($userId);
      
         require_once 'views/client/mybooking.php';
         

@@ -176,7 +176,7 @@
                   echo '<li><a href="http://localhost/car_rent/login" class="nav-link">Login</a></li>';
                 }
                 ?>
-                </ul>
+                </ul> 
               </nav>
             </div>
           </div>

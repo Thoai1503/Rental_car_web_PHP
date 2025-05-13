@@ -63,7 +63,7 @@ ob_start();
                             <td>
                                 <a href="#" class="btn btn-primary">Edit</a>
                      
-                                <a href="index.php?page=user-detail&id=<?= $user->getId() ?>" class="btn btn-info">Detail</a>
+                                <a href="userdetail?id=<?= $user->getId() ?>" class="btn btn-info">Detail</a>
                               
                         </tr>
                              

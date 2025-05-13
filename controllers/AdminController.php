@@ -105,6 +105,13 @@ public function userTable()
     $users = $this->userRepository->getAllClient();
     require 'views/admin/user-list.php';
 }
+
+public function userDetail($id)
+{
+    $user = $this->userRepository->getById($id);
+    $bookings = $this->bookingRepository->getByUserId($id);
+    require 'views/admin/userdetail.php';
+}
 }
 ?>
 

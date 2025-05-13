@@ -19,6 +19,7 @@ class RegisterController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $email = $_POST['email'];
+            $phone = $_POST['phone'];
             $password = $_POST['password'];
             $confirmPassword = $_POST['confirm_password'];
 
@@ -31,7 +32,7 @@ class RegisterController
        {
                 // Email is unique, proceed with registration
                 $accountDAO = AccountDAO::getInstance($this->pdo);
-                 $result=  $accountDAO->createUser($email, $password, $name);
+                 $result=  $accountDAO->createUser($email,$phone, $password, $name);
                 if (!$result) {
                     header('Location: login.php?error=registration_failed');
                     return;

@@ -58,7 +58,7 @@
             // Implement logic to delete a car brand by ID
             return true;
         }
-        public function getBookingsByUserId($userId) {
+        public function getByUserId($userId) {
             $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE user_id = ?");
             $stmt->execute([$userId]);
             $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -237,6 +237,9 @@ form .btn input[type="submit"]{
               <input type="text" placeholder="Email Address" name="email" required>
             </div>
             <div class="field">
+              <input type="text" placeholder="Phone" name="phone" required>
+            </div>
+            <div class="field">
               <input type="password" placeholder="Password" name="password" required>
             </div>
             <div class="field">

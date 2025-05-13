@@ -32,12 +32,13 @@ class AccountDAO
         }
 
     }
-    public function createUser($email, $password, $name)
+    public function createUser($email,$phone, $password, $name)
     {
  
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO users (email, password, name,id_auth) VALUES (:email, :password, :name,2)");
+            $stmt = $this->pdo->prepare("INSERT INTO users (email,phone, password, name,id_auth) VALUES (:email, :password, :name,2)");
             $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':phone', $phone);
             $stmt->bindParam(':password', $password);
             $stmt->bindParam(':name', $name);
             return $stmt->execute();

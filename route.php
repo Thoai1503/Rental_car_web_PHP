@@ -72,14 +72,14 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
     $carController = new CarController($pdo);
     $carController->updateStatusViaAjax();
 } elseif ($requestUri === '/cars-add' || $requestUri === '/admin/cars-add') {
-    $carController = new CarController(new CarRepository($pdo));
+    $carController = new CarController($pdo);
     $carController->add();
 } elseif ($requestUri === '/admin/booking-list') {
     $adminController = new AdminController($pdo);
     $adminController->bookingTable();
-} elseif ($requestUri === '/admin/users-list') {
+} elseif ($requestUri === '/admin/user-list') {
     $adminController = new AdminController($pdo);
-  //  $adminController->userTable();
+   $adminController->userTable();
 } elseif ($requestUri === '/admin/edituser') {
     $id = (int) $_REQUEST['id'];
     $adminController = new AdminController($pdo);
@@ -89,7 +89,11 @@ elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
     $adminController = new AdminController($pdo);
     $adminController->bookingDetail($id);
 }
-
+elseif ($requestUri === '/admin/userdetail') {
+    $id = (int) $_REQUEST['id'];
+    $adminController = new AdminController($pdo);
+    $adminController->userDetail($id);
+} 
 
 
 // Car management routes

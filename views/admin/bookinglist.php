@@ -58,7 +58,26 @@ ob_start();
                                                     <td><?= $book->getUserPhone() ?></td>
                                                     <td><?= $book->getStartDate() ?></td>
                                                     <td><?= $book->getEndDate() ?></td>
-                                                    <td><?= $book->getStatus() ?></td>
+                                                    <!-- <td><?= $book->getStatus() ?></td> -->
+                                                     
+                                                    <td>
+                                                        <?php
+                                                        if($book->getStartDate()< date('Y-m-d') && $book->getEndDate() > date('Y-m-d')){
+                                                            echo "<span class='badge bg-primary'>In progress</span>";
+                                                            
+                                                            
+                                                        }
+                                                        elseif($book->getStartDate() > date('Y-m-d')){
+                                                            echo "<span class='badge bg-success'>Upcoming</span>";
+                                                        }
+                                                        elseif($book->getEndDate() < date('Y-m-d')){
+                                                            echo "<span class='badge bg-danger'>Completed</span>";
+                                                        }
+                                                        else{
+                                                            echo "<span class='badge bg-warning'>Unknown</span>";
+                                                        }
+                                                        ?>
+                                                    </td>
                                                     <td>
                                                       
                                                         <a href="index.php?controller=booking&action=update&id=<?= $book->getId() ?>" class="btn btn-primary">Update</a>

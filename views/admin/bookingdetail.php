@@ -98,7 +98,7 @@ ob_start();
             <td><?= $user->getEmail() ?></td>
             <td><?= $user->getPhone() ?></td>
             <td>
-                <a href="index.php?controller=user&action=update&id=<?= $user->getId() ?>" class="btn btn-primary">Detail</a>
+                <a href="userdetail?id=<?= $user->getId() ?>" class="btn btn-primary">Detail</a>
 
             </td>
 
