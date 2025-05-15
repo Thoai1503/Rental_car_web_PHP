@@ -40,6 +40,21 @@ class CarRepository implements BaseRepositoryInterface
         }
         return $results;
     }
+    public function getCarByBrandId($brandId): array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE brand_id = ?" . " AND status = 'available'");
+        $stmt->execute([$brandId]);
+        $cars=  $stmt->fetchAll(PDO::FETCH_ASSOC);
+         $results =[];
+         foreach ($cars as $carData) {
+            $item= new Car($carData['id'], $carData['name'], $carData['brand_id'], $carData['type_id'], $carData['fuel_type'], $carData['seats'], $carData['transmission'], $carData['price_per_day'], $carData['image'],$carData['status']);
+            $item->setTypeName($this->carTypeRepository->getById($carData['type_id']));
+            $item->setBrandName($this->carBrandRepository->getById($carData['brand_id']));
+
+            $results[] = $item;
+        }
+        return $results;
+    }
 
     public function getAll(): array
     {
@@ -144,6 +159,38 @@ class CarRepository implements BaseRepositoryInterface
         $stmt->execute([$status]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getByBrandId(int $brandId): array
+{
+    $sql = "SELECT * FROM {$this->table} WHERE brand_id = ? AND status = 'available' LIMIT 2";
+    $params = [$brandId];
+    
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($params);
+    $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $results = [];
+    foreach ($cars as $carData) {
+        $item = new Car(
+            $carData['id'], 
+            $carData['name'],   
+            $carData['brand_id'], 
+            $carData['type_id'], 
+            $carData['fuel_type'], 
+            $carData['seats'], 
+            $carData['transmission'], 
+            $carData['price_per_day'], 
+            $carData['image'],
+            $carData['status']
+        );
+        $item->setTypeName($this->carTypeRepository->getById($carData['type_id']));
+        $item->setBrandName($this->carBrandRepository->getById($carData['brand_id']));
+        
+        $results[] = $item;
+    }
+    
+    return $results;
+}
 
 }
 

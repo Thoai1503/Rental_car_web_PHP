@@ -33,7 +33,7 @@ class HomeController
     public function index()
     {
        
-
+    $cars =$this->carRepository->getByBrandId(5);
 
            
 
@@ -217,6 +217,7 @@ public function showPaymentForm() {
             $_SESSION['displayForm'] = false;
        $id = (int)$_GET['id'];
         $car = $this->carRepository->getById($id);
+          $relatedCars = $this->carRepository->getByBrandId($car->getBrand(), 4, $car->getId());
         require_once 'views/client/cardetails.php';
     }
 

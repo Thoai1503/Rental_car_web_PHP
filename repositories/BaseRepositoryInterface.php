@@ -3,7 +3,7 @@
 
 interface BaseRepositoryInterface 
 {
-    public function getAll(): array;
+    public function getAll(): iterable;
     public function getById(int $id);
 
     public function create(array $car);

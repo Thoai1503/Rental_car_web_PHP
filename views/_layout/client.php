@@ -188,8 +188,11 @@
           class="ftco-cover-1 overlay  <?=$_SESSION['displayForm']?'':'innerpage'?>"
           style="background-image: url(<?=$_SESSION['displayForm']?'http://localhost/car_rent/public/client/images/hero_1.jpg':'http://localhost/car_rent/public/client/images/hero_2.jpg'?>);"
         >
-          <div class="container" style="display: <?=$_SESSION['displayForm']?'block':'none'?>;">
-            <div class="row align-items-center">
+          <div class="container" >
+            <?php
+            if ($_SESSION['displayForm']) {
+                 ?>
+                 <div class="row align-items-center">
               <div class="col-lg-5">
                 <div class="feature-car-rent-box-1">
                   <h3>Range Rover S7</h3>
@@ -224,6 +227,59 @@
                 </div>
               </div>
             </div>
+          <?php
+            } else {
+                echo '<div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 text-center">
+                  <h1>Our For Rent Cars</h1>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                </div>
+              </div>';
+            }
+          ?>
+            
+
+            <!-- <div class="row align-items-center">
+              <div class="col-lg-5">
+                <div class="feature-car-rent-box-1">
+                  <h3>Range Rover S7</h3>
+                  <ul class="list-unstyled">
+                    <li>
+                      <span>Doors</span>
+                      <span class="spec">4</span>
+                    </li>
+                    <li>
+                      <span>Seats</span>
+                      <span class="spec">6</span>
+                    </li>
+                    <li>
+                      <span>Lugage</span>
+                      <span class="spec">2 Suitcase/2 Bags</span>
+                    </li>
+                    <li>
+                      <span>Transmission</span>
+                      <span class="spec">Automatic</span>
+                    </li>
+                    <li>
+                      <span>Minium age</span>
+                      <span class="spec">Automatic</span>
+                    </li>
+                  </ul>
+                  <div class="d-flex align-items-center bg-light p-3">
+                    <span>$150/day</span>
+                    <a href="contact.html" class="ml-auto btn btn-primary"
+                      >Rent Now</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="row align-items-center justify-content-center">
+              <div class="col-lg-6 text-center">
+                <h1>Our For Rent Cars</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+            </div> -->
           </div>
         </div>
       </div>

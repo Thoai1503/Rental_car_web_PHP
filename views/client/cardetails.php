@@ -1,6 +1,5 @@
 <?php
  ob_start();
-
 ?>
 
 <section class="ftco-section ftco-car-details">
@@ -10,7 +9,7 @@
                     <div class="car-details">
                         <div class="img rounded" style="background-image: url(http://localhost/car_rent/uploads/<?=$car->getImage()?>);"></div>
                         <div class="text text-center">
-                            <span class="subheading">Cheverolet</span>
+                            <span class="subheading"><?=$car->getBrandName() ? $car->getBrandName() : 'N/A'?></span>
                             <h2><?=$car->getName()?></h2>
                         </div>
                     </div>
@@ -42,7 +41,7 @@
                                 <div class="text">
                                     <h3 class="heading mb-0 pl-3">
                                         Transmission
-                                        <span>Manual</span>
+                                        <span><?=$car->getTransmission()?></span>
                                     </h3>
                                 </div>
                             </div>
@@ -58,7 +57,7 @@
                                 <div class="text">
                                     <h3 class="heading mb-0 pl-3">
                                         Seats
-                                        <span>5 Adults</span>
+                                        <span><?=$car->getSeats()?> Adults</span>
                                     </h3>
                                 </div>
                             </div>
@@ -90,7 +89,7 @@
                                 <div class="text">
                                     <h3 class="heading mb-0 pl-3">
                                         Fuel
-                                        <span>Petrol</span>
+                                        <span><?=$car->getFuelType()?></span>
                                     </h3>
                                 </div>
                             </div>
@@ -318,6 +317,44 @@
         </div>
     </section>
 
+    <!-- Related Cars Section -->
+    <section class="ftco-section ftco-no-pt bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                    <span class="subheading">Related Cars</span>
+                    <h2 class="mb-2">Similar Cars from <?=$car->getBrandName() ? $car->getBrandName() : 'same brand'?></h2>
+                </div>
+            </div>
+            <div class="row">
+                <?php if(empty($relatedCars)): ?>
+                <div class="col-md-12 text-center">
+                    <p>No related cars found</p>
+                </div>
+                <?php else: ?>
+                    <?php foreach($relatedCars as $relatedCar): ?>
+                    <div class="col-md-3">
+                        <div class="car-wrap rounded ftco-animate">
+                            <div class="img rounded d-flex align-items-end" style="background-image: url(http://localhost/car_rent/uploads/<?=$relatedCar->getImage()?>);">
+                            </div>
+                            <div class="text">
+                                <h2 class="mb-0"><a href="cardetails?id=<?=$relatedCar->getId()?>"><?=$relatedCar->getName()?></a></h2>
+                                <div class="d-flex mb-3">
+                                    <span class="cat"><?=$relatedCar->getBrandName() ? $relatedCar->getBrandName() : 'N/A'?></span>
+                                    <p class="price ml-auto">$<?=$relatedCar->getPricePerDay()?> <span>/day</span></p>
+                                </div>
+                                <p class="d-flex mb-0 d-block">
+                                    <a href="payment?car_id=<?=$relatedCar->getId()?>" class="btn btn-primary py-2 mr-1">Book now</a> 
+                                    <a href="cardetails?id=<?=$relatedCar->getId()?>" class="btn btn-secondary py-2 ml-1">Details</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
 
 <?php
 $clientContent = ob_get_clean();
