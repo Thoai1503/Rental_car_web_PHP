@@ -267,6 +267,22 @@ public function showPaymentForm() {
         require_once 'views/client/mybooking.php';
         
     }
+    public function service()
+    {
+        $_SESSION['displayForm'] = false;
+        require_once 'views/client/service.php';
+    }
+    public function about()
+    {
+        $_SESSION['displayForm'] = false;
+        require_once 'views/client/about.php';
+    }
+    public
+    function contact()
+    {
+        $_SESSION['displayForm'] = false;
+        require_once 'views/client/contact.php';
+    }
 }
 
 ?>

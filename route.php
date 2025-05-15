@@ -50,7 +50,16 @@ if ($requestUri === '/index' || $requestUri === '/') {
 } elseif ($requestUri ==='/mybookings') {
     $homeController = new HomeController($pdo);
     $homeController->myBookings();
-} 
+} elseif ($requestUri ==='/service'){
+    $homeController = new HomeController(($pdo));
+    $homeController->service();
+} elseif ($requestUri ==='/about'){
+     $homeController = new HomeController(($pdo));
+    $homeController->about();
+} elseif ($requestUri ==='/contact'){
+     $homeController = new HomeController(($pdo));
+  $homeController->contact();
+}
 // Admin/management routes
 elseif ($requestUri === '/admin' || $requestUri === '/admin/index') {
     $adminController = new AdminController($pdo);

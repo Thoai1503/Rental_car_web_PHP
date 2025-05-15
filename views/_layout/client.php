@@ -133,11 +133,11 @@
                   <li class="active">
                     <a href="index" class="nav-link">Home</a>
                   </li>
-                  <li><a href="#" class="nav-link">Services</a></li>
-                  <li><a href="carlist" class="nav-link">Cars</a></li>
-                  <li><a href="#" class="nav-link">About</a></li>
+                  <li><a href="service" class="nav-link">Services</a></li>
+                  <li><a href="carlist" class="nav-link">Cars</a></li>  
+                  <li><a href="about" class="nav-link">About</a></li>
                   <li><a href="#" class="nav-link">Blog</a></li>
-                  <li><a href="#" class="nav-link">Contact</a></li>
+                  <li><a href="contact" class="nav-link">Contact</a></li>
                   <?php
                  if (isset($_SESSION['user'])) {
                   echo '
@@ -780,6 +780,19 @@
     $('.dropdown-item').removeClass('active');
     $(this).addClass('active');
   });
+
+
+  const menuItems = document.querySelectorAll(".site-menu li");
+
+    menuItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        // Remove 'active' from all menu items
+        menuItems.forEach((el) => el.classList.remove("active"));
+
+        // Add 'active' to the clicked menu item
+        this.classList.add("active");
+      });
+    });
 });
     </script>
 
