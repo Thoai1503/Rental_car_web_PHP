@@ -437,6 +437,37 @@ function inputEndDate(event) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
+
+ const pickupInput = document.getElementById('book_pick_date');
+  const dropoffInput = document.getElementById('time_pick');
+
+  // Ban đầu vô hiệu hóa ô Drop-off
+  dropoffInput.disabled = true;
+
+  // Khi người dùng chọn ngày Pick-up
+  pickupInput.addEventListener('change', function () {
+    if (pickupInput.value) {
+      // Bật Drop-off
+      dropoffInput.disabled = false;
+      // Đặt min date cho Drop-off lớn hơn hoặc bằng Pick-up
+      dropoffInput.min = pickupInput.value;
+    } else {
+      // Nếu bỏ chọn pickup date, disable lại dropoff
+      dropoffInput.disabled = true;
+      dropoffInput.value = '';
+    }
+  });
+
+  // Kiểm tra nếu người dùng cố gắng chọn drop-off trước pickup
+  dropoffInput.addEventListener('focus', function () {
+    if (!pickupInput.value) {
+      alert('Vui lòng chọn ngày nhận xe trước.');
+      pickupInput.focus();
+    }
+  }); 
+
+
   // Toggle payment method details
   document.querySelectorAll('input[name="payment_method"]').forEach(function(radio) {
     radio.addEventListener('change', function() {
@@ -490,6 +521,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     e.target.value = value;
   });
+
+
+   
 });
 </script>
 
