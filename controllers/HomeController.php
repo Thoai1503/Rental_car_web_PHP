@@ -78,6 +78,7 @@ public function carList() {
     }
     
     // Get filter parameters
+    $reset = isset($requestData['reset']) ? $requestData['reset'] : '';
     $transmission = isset($requestData['transmission']) ? $requestData['transmission'] : '';
     $brand = isset($requestData['brand']) ? $requestData['brand'] : '';
     $maxPrice = isset($requestData['price']) && is_numeric($requestData['price']) ? (float)$requestData['price'] : 0;
@@ -118,6 +119,11 @@ public function carList() {
         }
         $cars = $filteredCars;
     }
+    
+    if ($reset==1) {
+        $cars = $this->carList;
+    }
+
     
     // Pagination
     $page = isset($requestData['page']) ? (int)$requestData['page'] : 1;
