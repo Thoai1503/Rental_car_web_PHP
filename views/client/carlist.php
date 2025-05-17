@@ -187,7 +187,7 @@ function updateUrlParams(params) {
 }
 
 // Function to handle all AJAX requests for both filtering and pagination
-function loadCars(page = 1) {
+function loadCars(page = 1,reset = false) {
   // Show loading indicator
   showLoading();
   
@@ -199,6 +199,11 @@ function loadCars(page = 1) {
   const jsonData = serializeForm(form);
   
   // Add the page parameter
+  if (reset) {
+    jsonData.reset = 1; // Reset to first page
+  } else {
+    jsonData.reset = 0;
+  }
   jsonData.page = page;
   jsonData.ajax = true;
   
@@ -281,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('reset-filters').addEventListener('click', function(e) {
     e.preventDefault();
     document.getElementById('filter-form').reset();
-    loadCars(1);
+    loadCars(1,true); // Reset to first page when resetting filters
   });
   
   // Enable "Enter" key on price input to apply filters

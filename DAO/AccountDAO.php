@@ -36,7 +36,7 @@ class AccountDAO
     {
  
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO users (email,phone, password, name,id_auth) VALUES (:email, :password, :name,2)");
+            $stmt = $this->pdo->prepare("INSERT INTO users (email,phone, password, name,id_auth) VALUES (:email,:phone, :password, :name,2)");
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':phone', $phone);
             $stmt->bindParam(':password', $password);

@@ -151,7 +151,7 @@
                         <div class="d-flex align-items-center mb-2">
                           <img src="http://localhost/car_rent/public/client/images/person_1.jpg" style="width:40px;border-radius:50%" alt="user" class="img-fluid mr-2" />
                           <div>
-                            <strong><?php echo $_SESSION["user"]["name"] ?? "User"; ?></strong>
+                            <strong><?php echo $_SESSION["user"]["name"]; ?></strong>
                             <div class="small text-muted"><?php echo $_SESSION["user"]["email"] ?? "My name"; ?></div>
                           </div>
                         </div>
