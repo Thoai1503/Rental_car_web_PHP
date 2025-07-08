@@ -62,6 +62,7 @@ A web application for renting cars, built with PHP and HTML. This project provid
 ![Screenshot 2025-07-08 221938](https://github.com/user-attachments/assets/486aa0ea-a4d7-45db-8a15-489554b072f2)
 
 
+![Screenshot 2025-07-08 222159](https://github.com/user-attachments/assets/2d6771bd-ba2c-427b-bff1-fd0e5168ea9e)
 
 ## Getting Started
 
